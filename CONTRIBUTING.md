@@ -16,12 +16,11 @@ You agree to comply with all applicable IETF policies and procedures, including,
 BCP 78, 79, the TLP, and the TLP rules regarding code components (e.g. being
 subject to a Simplified BSD License) in Contributions.
 
-
 ## Other Resources
 
-Discussion of this work occurs on the
-[sdp working group mailing list](https://mailarchive.ietf.org/arch/browse/sdp/)
-([subscribe](https://www.ietf.org/mailman/listinfo/sdp)).  In addition to
+Discussion of this document takes place on the
+["Media Over QUIC" non-working group mailing list (MOQ)](https://mailarchive.ietf.org/arch/browse/moq/)
+([subscribe](https://www.ietf.org/mailman/listinfo/Moq/)).  In addition to
 contributions in GitHub, you are encouraged to participate in discussions there.
 
 **Note**: Some working groups adopt a policy whereby substantive discussion of

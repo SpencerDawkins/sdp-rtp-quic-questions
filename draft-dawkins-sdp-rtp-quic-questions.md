@@ -27,8 +27,10 @@ normative:
   RFC3261:
   RFC3264:
   RFC3550:
+  RFC3551:
   RFC3711:
   RFC4585:
+  RFC5104:
   RFC5761:
   RFC5124:
   RFC8174:
@@ -37,6 +39,11 @@ normative:
   RFC8866:
   RFC9000:
   RFC9001:
+
+  RIST-Simple-Prof:
+    target: https://vsf.tv/download/technical_recommendations/VSF_TR-06-1_2020_06_25.pdf
+    title: "Reliable Internet Stream Transport (RIST) Protocol Specification – Simple Profile"
+    date: September 2021
   SDP-parameters:
     target: https://www.iana.org/assignments/sdp-parameters/sdp-parameters.xhtml#sdp-parameters-2
     title: "SDP Parameters - Proto"
@@ -45,26 +52,29 @@ normative:
     target: https://www.iana.org/assignments/sdp-parameters/sdp-parameters.xhtml#sdp-att-field
     title: "SDP Parameters - attribute-name"
     date: September 2021
+  I-D.ietf-quic-datagram:
+  I-D.engelbart-rtp-over-quic:
+  I-D.hurst-quic-rtp-tunnelling:
+  I-D.rtpfolks-quic-rtp-over-quic:
 
 informative:
 
-  I-D.ietf-avtcore-rtp-vvc:
-  I-D.engelbart-rtp-over-quic:
+  I-D.dawkins-sdp-rtp-quic:
   RFC4145:
 
 --- abstract
 
-This document describes these new SDP "proto" attribute values: "QUIC", "QUIC/RTP/SAVP", "QUIC/RTP/AVPF", and "QUIC/RTP/SAVPF", and describes how SDP Offer/Answer can be used to set up an RTP connection using QUIC as a transport protocol.
+This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport". That document focuses specifically on the description and registration of SDP "proto" attribute parameters with IANA to allow QUIC to be used as an encapsulation for RTP. In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions and different proposals for those encapsulations  made different assumptions.
 
-These proto values are necessary to allow the use of QUIC as an underlying transport protocol for applications that commonly use SDP as a session signaling protocol to set up RTP connections with UDP as its underlying transport protocol, such as SIP and WebRTC.
+This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions.
 
 --- middle
 
 # Introduction {#intro}
 
-This document describes these new SDP "proto" attribute values: "QUIC", "QUIC/RTP/SAVP", "QUIC/RTP/AVPF", and "QUIC/RTP/SAVPF", and describes how SDP Offer/Answer ({{RFC3264}}) can be used to set up an RTP ({{RFC3550}}) connection using QUIC ({{RFC9000}}) as a transport protocol.
+This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport" ({{I-D.dawkins-sdp-rtp-quic}}). That document focuses specifically on the description and registration of SDP ({{RFC8866}}) "proto" attribute parameters with IANA ({{SDP-parameters}}) to allow QUIC to be used as an encapsulation for RTP ({{RFC3550}}). In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about RTP encapsulations onto the QUIC protocol ({{RFC9000}}), and different proposals for those encapsulations ({{I-D.engelbart-rtp-over-quic}}, {{I-D.hurst-quic-rtp-tunnelling}}, and {{I-D.rtpfolks-quic-rtp-over-quic}}) made different assumptions.
 
-These proto values are necessary to allow the use of QUIC as an underlying transport protocol for applications that commonly use SDP as a session signaling protocol to set up RTP connections with UDP as its underlying transport protocol, such as SIP ({{RFC3261}}) and WebRTC ({{RFC8825}}).
+This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions.
 
 ## Notes for Readers {#readernotes}
 
@@ -76,173 +86,96 @@ This document is intended for publiication as a standards-track RFC in the IETF 
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 ({{RFC2119}}) ({{RFC8174}}) when, and only when, they appear in all capitals, as shown here.
 
-## Contribution and Discussion Venues for this draft. {#contrib}
-
-(Note to RFC Editor - if this document ever reaches you, please remove this section)
-
-This document is under development in the Github repository at https://github.com/SpencerDawkins/sdp-rtp-quic.
-
-Open issues are being tracked in the Github repository for this document. The direct link to the list of issues is https://github.com/SpencerDawkins/sdp-rtp-quic/issues.
-
-Readers are invited to open issues and send pull requests with contributed text for this document, or to send them to the author via email.
-
 ##Scope of this document {#scope}
 
-This document focuses on the IANA registration and description of the RTP sessions using SDP Offer/Answer, as would be the case for many current RTP applications in common use, such as SIP ({{RFC3261}}) and WebRTC ({{RFC8825}}).
+{{I-D.dawkins-sdp-rtp-quic}} will necessarily reflect questions and answers contained in this document, but that discussion material will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, or some of its contents might might be included in one or more documents that describe RTP encapsulation in the QUIC protocol.
 
-This document is intended as complementary to {{I-D.engelbart-rtp-over-quic}}, which largely focuses on RTP/RTCP encapsulation in QUIC datagrams, so that the SDP experts can focus on SDP offer/answer aspects, and the RTP experts can focus on RTP/RTCP encapsulation aspects.
+# Questions (and, Eventually, Answers) {#questions}
 
-##Assumptions for this document {#assume}
+## Useful AVP Profiles
 
-This document assumes that for RTP-over-QUIC, it is useful to register these AVP profiles using QUIC, in order to allow existing SIP and RTCWEB RTP applications to migrate more easily to QUIC:
+{{SDP-parameters}} contains four classes of AVP profiles:
 
- * RTP/SAVP ("The Secure Real-time Transport Protocol (SRTP)"), as defined in {{RFC3711}}.
- * RTP/AVPF ("Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"), as defined in {{RFC4585}}.
+ * RTP/AVP ("RTP Profile for Audio and Video Conferences with Minimal Control"), as defined in {{RFC3551}},
+ * RTP/SAVP ("The Secure Real-time Transport Protocol (SRTP)"), as defined in {{RFC3711}},
+ * RTP/AVPF ("Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"), as defined in {{RFC4585}}, and
  * RTP/SAVPF ("Extended Secure RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/SAVPF)"), as defined in {{RFC5124}}.
 
-This document assumes that any implementation adding support for RTP-over-QUIC could reasonably add support for BUNDLE ({{RFC8843}}), "rtcp-mux" ({{RFC5761}}).
+ We could register all four over QUIC, but if we can cut down on the number of options for implementers, we might achieve better interoperability.
 
-#Identifiers and Attributes
+### Can We Assume the Use of "Extended Profiles"?
 
-As much as possible, these are reused from other specifications, with references to the original definitions.
+We could register both AVP and AVPF profiles, but do we need to register both?
 
-##Protocol Identifiers
+### Is "Secure RTP Encapsulated in UDP" Equivalent to "RTP Encapsulated in QUIC"?
 
-### The QUIC proto {#quic}
+RTP that is encapsulated in QUIC payloads will always be encrypted {{RFC9000}}. So, should we register (for example)
 
-The 'QUIC' protocol identifier is similar to the 'UDP' and 'TCP' protocol identifiers in that it only describes the transport protocol, and not the upper-layer protocol.
+- QUIC/RTP/AVPF, knowing that any RTP payload using the QUIC protocol is encrypted, but is not SDES, or
+- QUIC/RTP/SAVPF, because QUIC encryption provides at least an equivalent level of protection to SDES, or
+- both QUIC/RTP/AVPF and QUIC/RTP/SAVPF, to minimize the changes necessary for existing RTP applications to add support for QUIC encapsulation?
 
-An 'm' line that specifies 'QUIC' MUST further qualify the application-layer protocol using an fmt identifier, such as "QUIC/RTP/AVPF".  Media described using an 'm' line containing the 'QUIC' protocol identifier are carried using QUIC ({{RFC9000}}).
+### Encapsulations in Datagrams and Streams
 
-The following is an update to the ABNF for an 'm' line, as specified by {{RFC8866}}, that defines a new value for the QUIC protocol.
+We note that {{SDP-parameters}} contains registrations for both RTP encapsulated in UDP datagrams and RTP encapsulated in TCP streams.
 
-~~~~~~
-   media-field =         %s"m" "=" media SP port \["/" integer\]
-                             SP proto 1*(SP fmt) CRLF
+If we wanted to allow the same level of flexibility for QUIC/RTP, we could register (for example) QUIC/DGRAM/RTP, mapped onto QUIC datagrams ({{I-D.ietf-quic-datagram}}), and QUIC/STREAM/RTP, mapped onto QUIC streams ({{RFC9000}}), reusing terminology from the Berkley Sockets API.
 
-   m= line parameter        parameter value(s)
-   ------------------------------------------------------------------
-   <media>:                 (unchanged from {{RFC8866}})
-   <proto>:                 'QUIC'
-   <port>:                  UDP port number
-   <fmt>:                   (unchanged from {{RFC8866}})
-~~~~~~
+Should we do that? If so, starting out that way would be better than starting out with QUIC/RTP and then adding QUIC/STREAM/RTP later.
 
-### The QUIC/RTP/SAVP proto {#savp}
+## Useful Support For Existing RTP Extensions
 
-The following is an update to the ABNF for an 'm' line, as specified by {{RFC8866}}, that defines a new value for the QUIC/RTP/SAVP protocol.
+Although these questions may not directly impact the descriptions and IANA registrations in {{I-D.dawkins-sdp-rtp-quic}}, they are likely worth mentioning in that document.
 
-~~~~~~
-   media-field =         %s"m" "=" media SP port \["/" integer\]
-                             SP proto 1*(SP fmt) CRLF
+It seems useful to confirm that we can assume support for "Multiplexing RTP Data and Control Packets on a Single Port", as described in {{RFC5761}}.
 
-   m= line parameter        parameter value(s)
-   ------------------------------------------------------------------
-   <media>:                 (unchanged from {{RFC8866}})
-   <proto>:                 'QUIC/RTP/SAVP'
-   <port>:                  UDP port number
-   <fmt>:                   (unchanged from {{RFC8866}})
-~~~~~~
+It seems useful to confirm that we can assume support for Media Multiplexing ("BUNDLE"), as described in {{RFC8843}}.
 
-### The QUIC/RTP/AVPF proto {#avpf}
+Are there other RTP extensions that we can assume support for?
 
-The following is an update to the ABNF for an 'm' line, as specified by {{RFC8866}}, that defines a new value for the QUIC/RTP/AVPF protocol.
+## Feedback Mechanisms
 
-~~~~~~
-   media-field =         %s"m" "=" media SP port \["/" integer\]
-                             SP proto 1*(SP fmt) CRLF
+RTP has relied on RTCP as its feedback mechanism for decades, but that mechanism has evolved over time, with the addition of AVPF feedback ({{RFC4585}}), and subsequent extensions (for example, the codec control messages defined in {{RFC5104}}).
 
-   m= line parameter        parameter value(s)
-   ------------------------------------------------------------------
-   <media>:                 (unchanged from {{RFC8866}})
-   <proto>:                 'QUIC/RTP/AVPF'
-   <port>:                  UDP port number
-   <fmt>:                   (unchanged from {{RFC8866}})
-~~~~~~
+Can we assume that RTP applications using QUIC as their transport encapsulation will continue to use AVPF as the basis for feedback mechanisms, largely unchanged?
 
-### The QUIC/RTP/SAVPF proto {#savpf}
+- Perhaps some applications will do so.
+- For example, {{I-D.engelbart-rtp-over-quic}} proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality.
+- Conversely, {{RIST-Simple-Prof}} extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request.
 
-The following is an update to the ABNF for an 'm' line, as specified by {{RFC8866}}, that defines a new value for the QUIC/RTP/SAVPF protocol.
+## Potential Extensions To QUIC and QUIC-related Specifications
 
-~~~~~~
-   media-field =         %s"m" "=" media SP port \["/" integer\]
-                             SP proto 1*(SP fmt) CRLF
+Because the topics in this section are speculative, it's not clear whether they would have any impact on SDP description and IANA registration in {{I-D.dawkins-sdp-rtp-quic}}.
 
-   m= line parameter        parameter value(s)
-   ------------------------------------------------------------------
-   <media>:                 (unchanged from {{RFC8866}})
-   <proto>:                 'QUIC/RTP/SAVPF'
-   <port>:                  UDP port number
-   <fmt>:                   (unchanged from {{RFC8866}})
-~~~~~~
+### Support for NAT Traversal
 
-##A QUIC/RTP/AVPF Offer
+From {{RFC9000}}, Section 8.2:
 
-A complete example of an SDP offer using QUIC/RTP/AVPF might look like:
+> Path validation is not designed as a NAT traversal mechanism. Though the mechanism described here might be effective for the creation of NAT bindings that support NAT traversal, the expectation is that one endpoint is able to receive packets without first having sent a packet on that path. Effective NAT traversal needs additional synchronization mechanisms that are not provided here.
 
-|SDP line | Notes |
-|v=0 |Same as {{RFC8866}}|
-|o=jdoe 3724394400 3724394405 IN IP4 198.51.100.1 |Same as {{RFC8866}}|
-|s=Call to John Smith |Same as {{RFC8866}}|
-|i=SDP Offer #1 |Same as {{RFC8866}}|
-|u=http://www.jdoe.example.com/home.html |Same as {{RFC8866}}|
-|e=Jane Doe <jane@jdoe.example.com> |Same as {{RFC8866}}|
-|p=+1 617 555-6011 |Same as {{RFC8866}}|
-|c=IN IP4 198.51.100.1 |Same as {{RFC8866}}|
-|t=0 0 |Same as {{RFC8866}}|
-|m=audio 49170 RTP/AVP 0 |Same as {{RFC8866}}|
-|m=audio 49180 RTP/AVP 0 |Same as {{RFC8866}}|
-|m=video 51372 QUIC/RTP/AVPF 99 |QUIC transport|
-|a=setup:passive|will wait for QUIC handshake (setup attribute from {{RFC4145}})|
-|a=connection:new|don't want to reuse an existing QUIC connection (connection attribute from {{RFC4145}})|
-|c=IN IP6 2001:db8::2 |Same as {{RFC8866}}|
-|a=rtpmap:99 h266/90000 |H.266 VVC codec {{I-D.ietf-avtcore-rtp-vvc}}|
+It's worth noting that the driving use cases for the first version of IETF QUIC have been for HTTP-based web access, where the capability described in {{RFC9000}} was sufficient, while many existing applications using RTP also require support for NAT traversal. If we need NAT traversal for QUIC/RTP applications, we need to look at existing NAT traversal mechanisms, and determine whether they are sufficient, and can be included in SDP Offer/Answer for QUIC/RTP communication without modification.
 
-This example is largely based on an example appearing in {{RFC8866}}, Section 5, but is using QUIC/RTP/AVPF to support a newer codec.
+### QUIC Datagram Multiplexing
 
-Because QUIC uses connections for both streams and datagrams, we are reusing two session- and media-level SDP attributes from {{SDP-attribute-name}} that were defined in {{RFC4145}} for use with TCP: setup and connection.
+{{I-D.ietf-quic-datagram}} does not provide support for a standardized datagram multiplexing identifier, for reasons described in Section 5.1, and at greater length in the Github issue about this (at https://github.com/quicwg/datagram/issues/6).
 
-This example SDP offer might be included in a SIP Invite.
+The high-level explanation is that there was considerable support for adding a datagram multiplexing identifier to the datagram frame type, but much less agreement about what effect that identifier would have, and whether the QUIC transport layer would be responsible for any particular processing, or whether this processing would necessarily be performed by the application.
+
+In general, that's a fine plan. The question for this document is whether there is enough similarity for various applications using QUIC/RTP that specifying an RTP-specific datagram multiplier would provide better predictability and ability to multiplex datagrams from different applications without modifying those applications when they encounter each other for the first time.
 
 # IANA Considerations
 
-This document registers these protocols in the proto registry ({{SDP-parameters}}).
-
-* QUIC ({{quic}})
-* QUIC/RTP/SAVP ({{savp}})
-* QUIC/RTP/AVPF ({{avpf}})
-* QUIC/RTP/SAVPF ({{savpf}})
-
-## Proto Registrations
-
-IANA is requested to add these protocols to the Session Description Protocol (SDP) Parameters proto registry ({{SDP-parameters}}).
-
-| Type | SDP Name | Reference |
-| proto | QUIC | RFCXXXX |
-| proto | QUIC/RTP/SAVP | RFCXXXX |
-| proto | QUIC/RTP/AVPF | RFCXXXX |
-| proto | QUIC/RTP/SAVPF | RFCXXXX |
-
-**Note to the RFC Editor**
-
-Please replace "RFCXXXX" with the assigned RFC number, when that is available, and remove this note.
+This document makes no requests of IANA.
 
 # Security Considerations
 
-Security considerations for the QUIC protocol are described in the corresponding section in {{RFC9000}}.
-
-Security considerations for the TLS handshake used to secure QUIC are described in {{RFC9001}}.
-
-Security considerations for SDP are described in the corresponding section in {{RFC8866}}.
-
-Security considerations for SDP offer/answer are described in the cooresponding section in {{RFC3264}}.
+This document is intended as the basis for discussion about protocol mechanisms that will be described in other documents. As a discussion paper, this document introduces no new security considerations, and any new security considerations resulting from those discussions should be included in the documents that actually describe protocol mechanisms.
 
 # Acknowledgments
-
-My appreciation to the authors of {{RFC4145}}, which served as a model for the initial structure of this document.
 
 Thanks to thse folks for helping to improve this draft:
 
 * Colin Perkins
+* Richard Bradbury
 
-(Your name also could appear here. Please comment and contribute, as per {{contrib}}).
+(Your name also could appear here. Please comment and contribute, as described in "Contribution and Discussion Venues for this draft".).

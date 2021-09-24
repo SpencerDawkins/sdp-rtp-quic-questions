@@ -7,8 +7,8 @@
 <title>SDP Offer/Answer for RTP using QUIC as Transport - Design Questions</title>
 <meta content="Spencer Dawkins" name="author">
 <meta content='
-       This document describes these new SDP "proto" attribute values: "QUIC", "QUIC/RTP/SAVP", "QUIC/RTP/AVPF", and "QUIC/RTP/SAVPF", and describes how SDP Offer/Answer can be used to set up an RTP connection using QUIC as a transport protocol. 
-       These proto values are necessary to allow the use of QUIC as an underlying transport protocol for applications that commonly use SDP as a session signaling protocol to set up RTP connections with UDP as its underlying transport protocol, such as SIP and WebRTC. 
+       This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport". That document focuses specifically on the description and registration of SDP "proto" attribute parameters with IANA to allow QUIC to be used as an encapsulation for RTP. In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions and different proposals for those encapsulations  made different assumptions. 
+       This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions. 
     ' name="description">
 <meta content="xml2rfc 3.9.1" name="generator">
 <meta content="Internet-Draft QUIC RTP SDP" name="keyword">
@@ -1022,7 +1022,7 @@ address div.right {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Dawkins</td>
-<td class="center">Expires 25 March 2022</td>
+<td class="center">Expires 28 March 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1035,12 +1035,12 @@ address div.right {
 <dd class="internet-draft">draft-dawkins-sdp-rtp-quic-questions-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-09-21" class="published">21 September 2021</time>
+<time datetime="2021-09-24" class="published">24 September 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-03-25">25 March 2022</time></dd>
+<dd class="expires"><time datetime="2022-03-28">28 March 2022</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1053,8 +1053,20 @@ address div.right {
 <h1 id="title">SDP Offer/Answer for RTP using QUIC as Transport - Design Questions</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document describes these new SDP "proto" attribute values: "QUIC", "QUIC/RTP/SAVP", "QUIC/RTP/AVPF", and "QUIC/RTP/SAVPF", and describes how SDP Offer/Answer can be used to set up an RTP connection using QUIC as a transport protocol.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
-<p id="section-abstract-2">These proto values are necessary to allow the use of QUIC as an underlying transport protocol for applications that commonly use SDP as a session signaling protocol to set up RTP connections with UDP as its underlying transport protocol, such as SIP and WebRTC.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport". That document focuses specifically on the description and registration of SDP "proto" attribute parameters with IANA to allow QUIC to be used as an encapsulation for RTP. In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions and different proposals for those encapsulations  made different assumptions.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-discussion-venues">
+<a href="#name-discussion-venues" class="section-name selfRef">Discussion Venues</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">Discussion of this document takes place on the
+      "Media Over QUIC" non-working group mailing list (MOQ),
+    which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/moq/">https://mailarchive.ietf.org/arch/browse/moq/</a></span>.
+    Subscription information is at <span><a href="https://www.ietf.org/mailman/listinfo/Moq/">https://www.ietf.org/mailman/listinfo/Moq/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+    <span><a href="https://github.com/SpencerDawkins/sdp-rtp-quic-questions">https://github.com/SpencerDawkins/sdp-rtp-quic-questions</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1075,7 +1087,7 @@ address div.right {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 March 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 March 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1103,78 +1115,78 @@ address div.right {
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="ulEmpty ulBare toc compact">
-<li class="ulEmpty ulBare toc compact" id="section-toc.1-1.1">
+<nav class="toc"><ul class="ulBare toc ulEmpty compact">
+<li class="ulBare toc ulEmpty compact" id="section-toc.1-1.1">
             <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
-<ul class="ulBare toc ulEmpty compact">
-<li class="ulBare toc ulEmpty compact" id="section-toc.1-1.1.2.1">
+<ul class="toc ulEmpty compact ulBare">
+<li class="toc ulEmpty compact ulBare" id="section-toc.1-1.1.2.1">
                 <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-notes-for-readers" class="xref">Notes for Readers</a></p>
 </li>
-              <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.1.2.2">
+              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.1.2.2">
                 <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-terminology" class="xref">Terminology</a></p>
 </li>
-              <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.1.2.3">
-                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="xref">1.3</a>.  <a href="#name-contribution-and-discussion" class="xref">Contribution and Discussion Venues for this draft.</a></p>
-</li>
-              <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.1.2.4">
-                <p id="section-toc.1-1.1.2.4.1"><a href="#section-1.4" class="xref">1.4</a>.  <a href="#name-scope-of-this-document" class="xref">Scope of this document</a></p>
-</li>
-              <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.1.2.5">
-                <p id="section-toc.1-1.1.2.5.1"><a href="#section-1.5" class="xref">1.5</a>.  <a href="#name-assumptions-for-this-docume" class="xref">Assumptions for this document</a></p>
+              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="xref">1.3</a>.  <a href="#name-scope-of-this-document" class="xref">Scope of this document</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty ulBare toc compact" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-identifiers-and-attributes" class="xref">Identifiers and Attributes</a></p>
-<ul class="ulBare toc ulEmpty compact">
-<li class="ulBare toc ulEmpty compact" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-protocol-identifiers" class="xref">Protocol Identifiers</a></p>
-<ul class="ulBare toc ulEmpty compact">
-<li class="ulBare toc ulEmpty compact" id="section-toc.1-1.2.2.1.2.1">
-                    <p id="section-toc.1-1.2.2.1.2.1.1"><a href="#section-2.1.1" class="xref">2.1.1</a>.  <a href="#name-the-quic-proto" class="xref">The QUIC proto</a></p>
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-questions-and-eventually-an" class="xref">Questions (and, Eventually, Answers)</a></p>
+<ul class="toc ulEmpty compact ulBare">
+<li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-useful-avp-profiles" class="xref">Useful AVP Profiles</a></p>
+<ul class="toc ulEmpty compact ulBare">
+<li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.1.2.1">
+                    <p id="section-toc.1-1.2.2.1.2.1.1"><a href="#section-2.1.1" class="xref">2.1.1</a>.  <a href="#name-can-we-assume-the-use-of-ex" class="xref">Can We Assume the Use of "Extended Profiles"?</a></p>
 </li>
-                  <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.2.2.1.2.2">
-                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="xref">2.1.2</a>.  <a href="#name-the-quic-rtp-savp-proto" class="xref">The QUIC/RTP/SAVP proto</a></p>
+                  <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.1.2.2">
+                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="xref">2.1.2</a>.  <a href="#name-is-secure-rtp-encapsulated-" class="xref">Is "Secure RTP Encapsulated in UDP" Equivalent to "RTP Encapsulated in QUIC"?</a></p>
 </li>
-                  <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.2.2.1.2.3">
-                    <p id="section-toc.1-1.2.2.1.2.3.1"><a href="#section-2.1.3" class="xref">2.1.3</a>.  <a href="#name-the-quic-rtp-avpf-proto" class="xref">The QUIC/RTP/AVPF proto</a></p>
-</li>
-                  <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.2.2.1.2.4">
-                    <p id="section-toc.1-1.2.2.1.2.4.1"><a href="#section-2.1.4" class="xref">2.1.4</a>.  <a href="#name-the-quic-rtp-savpf-proto" class="xref">The QUIC/RTP/SAVPF proto</a></p>
+                  <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.1.2.3">
+                    <p id="section-toc.1-1.2.2.1.2.3.1"><a href="#section-2.1.3" class="xref">2.1.3</a>.  <a href="#name-encapsulations-in-datagrams" class="xref">Encapsulations in Datagrams and Streams</a></p>
 </li>
                 </ul>
 </li>
-              <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.2.2.2">
-                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-a-quic-rtp-avpf-offer" class="xref">A QUIC/RTP/AVPF Offer</a></p>
+              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-useful-support-for-existing" class="xref">Useful Support For Existing RTP Extensions</a></p>
+</li>
+              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-feedback-mechanisms" class="xref">Feedback Mechanisms</a></p>
+</li>
+              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.4">
+                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="xref">2.4</a>.  <a href="#name-potential-extensions-to-qui" class="xref">Potential Extensions To QUIC and QUIC-related Specifications</a></p>
+<ul class="toc ulEmpty compact ulBare">
+<li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.4.2.1">
+                    <p id="section-toc.1-1.2.2.4.2.1.1"><a href="#section-2.4.1" class="xref">2.4.1</a>.  <a href="#name-support-for-nat-traversal" class="xref">Support for NAT Traversal</a></p>
+</li>
+                  <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.2.2.4.2.2">
+                    <p id="section-toc.1-1.2.2.4.2.2.1"><a href="#section-2.4.2" class="xref">2.4.2</a>.  <a href="#name-quic-datagram-multiplexing" class="xref">QUIC Datagram Multiplexing</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty ulBare toc compact" id="section-toc.1-1.3">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
-<ul class="ulBare toc ulEmpty compact">
-<li class="ulBare toc ulEmpty compact" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-proto-registrations" class="xref">Proto Registrations</a></p>
 </li>
-            </ul>
-</li>
-          <li class="ulEmpty ulBare toc compact" id="section-toc.1-1.4">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
 </li>
-          <li class="ulEmpty ulBare toc compact" id="section-toc.1-1.5">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-acknowledgments" class="xref">Acknowledgments</a></p>
 </li>
-          <li class="ulEmpty ulBare toc compact" id="section-toc.1-1.6">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-references" class="xref">References</a></p>
-<ul class="ulBare toc ulEmpty compact">
-<li class="ulBare toc ulEmpty compact" id="section-toc.1-1.6.2.1">
+<ul class="toc ulEmpty compact ulBare">
+<li class="toc ulEmpty compact ulBare" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
 </li>
-              <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.6.2.2">
+              <li class="toc ulEmpty compact ulBare" id="section-toc.1-1.6.2.2">
                 <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
 </li>
             </ul>
 </li>
-          <li class="ulEmpty ulBare toc compact" id="section-toc.1-1.7">
+          <li class="ulBare toc ulEmpty compact" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#appendix-A" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a></p>
 </li>
         </ul>
@@ -1186,8 +1198,8 @@ address div.right {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document describes these new SDP "proto" attribute values: "QUIC", "QUIC/RTP/SAVP", "QUIC/RTP/AVPF", and "QUIC/RTP/SAVPF", and describes how SDP Offer/Answer (<span>[<a href="#RFC3264" class="xref">RFC3264</a>]</span>) can be used to set up an RTP (<span>[<a href="#RFC3550" class="xref">RFC3550</a>]</span>) connection using QUIC (<span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>) as a transport protocol.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">These proto values are necessary to allow the use of QUIC as an underlying transport protocol for applications that commonly use SDP as a session signaling protocol to set up RTP connections with UDP as its underlying transport protocol, such as SIP (<span>[<a href="#RFC3261" class="xref">RFC3261</a>]</span>) and WebRTC (<span>[<a href="#RFC8825" class="xref">RFC8825</a>]</span>).<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-1">This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport" (<span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>). That document focuses specifically on the description and registration of SDP (<span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>) "proto" attribute parameters with IANA (<span>[<a href="#SDP-parameters" class="xref">SDP-parameters</a>]</span>) to allow QUIC to be used as an encapsulation for RTP (<span>[<a href="#RFC3550" class="xref">RFC3550</a>]</span>). In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about RTP encapsulations onto the QUIC protocol (<span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>), and different proposals for those encapsulations (<span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span>, <span>[<a href="#I-D.hurst-quic-rtp-tunnelling" class="xref">I-D.hurst-quic-rtp-tunnelling</a>]</span>, and <span>[<a href="#I-D.rtpfolks-quic-rtp-over-quic" class="xref">I-D.rtpfolks-quic-rtp-over-quic</a>]</span>) made different assumptions.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <div id="readernotes">
 <section id="section-1.1">
         <h3 id="name-notes-for-readers">
@@ -1205,242 +1217,132 @@ address div.right {
 <p id="section-1.2-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (<span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span>) (<span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span>) when, and only when, they appear in all capitals, as shown here.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="contrib">
-<section id="section-1.3">
-        <h3 id="name-contribution-and-discussion">
-<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-contribution-and-discussion" class="section-name selfRef">Contribution and Discussion Venues for this draft.</a>
-        </h3>
-<p id="section-1.3-1">(Note to RFC Editor - if this document ever reaches you, please remove this section)<a href="#section-1.3-1" class="pilcrow">¶</a></p>
-<p id="section-1.3-2">This document is under development in the Github repository at https://github.com/SpencerDawkins/sdp-rtp-quic.<a href="#section-1.3-2" class="pilcrow">¶</a></p>
-<p id="section-1.3-3">Open issues are being tracked in the Github repository for this document. The direct link to the list of issues is https://github.com/SpencerDawkins/sdp-rtp-quic/issues.<a href="#section-1.3-3" class="pilcrow">¶</a></p>
-<p id="section-1.3-4">Readers are invited to open issues and send pull requests with contributed text for this document, or to send them to the author via email.<a href="#section-1.3-4" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="scope">
-<section id="section-1.4">
+<section id="section-1.3">
         <h3 id="name-scope-of-this-document">
-<a href="#section-1.4" class="section-number selfRef">1.4. </a><a href="#name-scope-of-this-document" class="section-name selfRef">Scope of this document</a>
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-scope-of-this-document" class="section-name selfRef">Scope of this document</a>
         </h3>
-<p id="section-1.4-1">This document focuses on the IANA registration and description of the RTP sessions using SDP Offer/Answer, as would be the case for many current RTP applications in common use, such as SIP (<span>[<a href="#RFC3261" class="xref">RFC3261</a>]</span>) and WebRTC (<span>[<a href="#RFC8825" class="xref">RFC8825</a>]</span>).<a href="#section-1.4-1" class="pilcrow">¶</a></p>
-<p id="section-1.4-2">This document is intended as complementary to <span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span>, which largely focuses on RTP/RTCP encapsulation in QUIC datagrams, so that the SDP experts can focus on SDP offer/answer aspects, and the RTP experts can focus on RTP/RTCP encapsulation aspects.<a href="#section-1.4-2" class="pilcrow">¶</a></p>
+<p id="section-1.3-1"><span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span> will necessarily reflect questions and answers contained in this document, but that discussion material will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, or some of its contents might might be included in one or more documents that describe RTP encapsulation in the QUIC protocol.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="assume">
-<section id="section-1.5">
-        <h3 id="name-assumptions-for-this-docume">
-<a href="#section-1.5" class="section-number selfRef">1.5. </a><a href="#name-assumptions-for-this-docume" class="section-name selfRef">Assumptions for this document</a>
+</section>
+</div>
+<div id="questions">
+<section id="section-2">
+      <h2 id="name-questions-and-eventually-an">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-questions-and-eventually-an" class="section-name selfRef">Questions (and, Eventually, Answers)</a>
+      </h2>
+<div id="useful-avp-profiles">
+<section id="section-2.1">
+        <h3 id="name-useful-avp-profiles">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-useful-avp-profiles" class="section-name selfRef">Useful AVP Profiles</a>
         </h3>
-<p id="section-1.5-1">This document assumes that for RTP-over-QUIC, it is useful to register these AVP profiles using QUIC, in order to allow existing SIP and RTCWEB RTP applications to migrate more easily to QUIC:<a href="#section-1.5-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-1"><span>[<a href="#SDP-parameters" class="xref">SDP-parameters</a>]</span> contains four classes of AVP profiles:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.5-2.1">RTP/SAVP ("The Secure Real-time Transport Protocol (SRTP)"), as defined in <span>[<a href="#RFC3711" class="xref">RFC3711</a>]</span>.<a href="#section-1.5-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-2.1-2.1">RTP/AVP ("RTP Profile for Audio and Video Conferences with Minimal Control"), as defined in <span>[<a href="#RFC3551" class="xref">RFC3551</a>]</span>,<a href="#section-2.1-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.5-2.2">RTP/AVPF ("Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"), as defined in <span>[<a href="#RFC4585" class="xref">RFC4585</a>]</span>.<a href="#section-1.5-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-2.1-2.2">RTP/SAVP ("The Secure Real-time Transport Protocol (SRTP)"), as defined in <span>[<a href="#RFC3711" class="xref">RFC3711</a>]</span>,<a href="#section-2.1-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-1.5-2.3">RTP/SAVPF ("Extended Secure RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/SAVPF)"), as defined in <span>[<a href="#RFC5124" class="xref">RFC5124</a>]</span>.<a href="#section-1.5-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-2.1-2.3">RTP/AVPF ("Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"), as defined in <span>[<a href="#RFC4585" class="xref">RFC4585</a>]</span>, and<a href="#section-2.1-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-2.1-2.4">RTP/SAVPF ("Extended Secure RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/SAVPF)"), as defined in <span>[<a href="#RFC5124" class="xref">RFC5124</a>]</span>.<a href="#section-2.1-2.4" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-1.5-3">This document assumes that any implementation adding support for RTP-over-QUIC could reasonably add support for BUNDLE (<span>[<a href="#RFC8843" class="xref">RFC8843</a>]</span>), "rtcp-mux" (<span>[<a href="#RFC5761" class="xref">RFC5761</a>]</span>).<a href="#section-1.5-3" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-<div id="identifiers-and-attributes">
-<section id="section-2">
-      <h2 id="name-identifiers-and-attributes">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-identifiers-and-attributes" class="section-name selfRef">Identifiers and Attributes</a>
-      </h2>
-<p id="section-2-1">As much as possible, these are reused from other specifications, with references to the original definitions.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<div id="protocol-identifiers">
-<section id="section-2.1">
-        <h3 id="name-protocol-identifiers">
-<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-protocol-identifiers" class="section-name selfRef">Protocol Identifiers</a>
-        </h3>
-<div id="quic">
+<p id="section-2.1-3">We could register all four over QUIC, but if we can cut down on the number of options for implementers, we might achieve better interoperability.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<div id="can-we-assume-the-use-of-extended-profiles">
 <section id="section-2.1.1">
-          <h4 id="name-the-quic-proto">
-<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-the-quic-proto" class="section-name selfRef">The QUIC proto</a>
+          <h4 id="name-can-we-assume-the-use-of-ex">
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-can-we-assume-the-use-of-ex" class="section-name selfRef">Can We Assume the Use of "Extended Profiles"?</a>
           </h4>
-<p id="section-2.1.1-1">The 'QUIC' protocol identifier is similar to the 'UDP' and 'TCP' protocol identifiers in that it only describes the transport protocol, and not the upper-layer protocol.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1.1-2">An 'm' line that specifies 'QUIC' MUST further qualify the application-layer protocol using an fmt identifier, such as "QUIC/RTP/AVPF".  Media described using an 'm' line containing the 'QUIC' protocol identifier are carried using QUIC (<span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>).<a href="#section-2.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.1.1-3">The following is an update to the ABNF for an 'm' line, as specified by <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>, that defines a new value for the QUIC protocol.<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-2.1.1-4">
-<pre>
-   media-field =         %s"m" "=" media SP port \["/" integer\]
-                             SP proto 1*(SP fmt) CRLF
-
-   m= line parameter        parameter value(s)
-   ------------------------------------------------------------------
-   &lt;media&gt;:                 (unchanged from {{RFC8866}})
-   &lt;proto&gt;:                 'QUIC'
-   &lt;port&gt;:                  UDP port number
-   &lt;fmt&gt;:                   (unchanged from {{RFC8866}})
-</pre><a href="#section-2.1.1-4" class="pilcrow">¶</a>
-</div>
+<p id="section-2.1.1-1">We could register both AVP and AVPF profiles, but do we need to register both?<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="savp">
+<div id="is-secure-rtp-encapsulated-in-udp-equivalent-to-rtp-encapsulated-in-quic">
 <section id="section-2.1.2">
-          <h4 id="name-the-quic-rtp-savp-proto">
-<a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-the-quic-rtp-savp-proto" class="section-name selfRef">The QUIC/RTP/SAVP proto</a>
+          <h4 id="name-is-secure-rtp-encapsulated-">
+<a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-is-secure-rtp-encapsulated-" class="section-name selfRef">Is "Secure RTP Encapsulated in UDP" Equivalent to "RTP Encapsulated in QUIC"?</a>
           </h4>
-<p id="section-2.1.2-1">The following is an update to the ABNF for an 'm' line, as specified by <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>, that defines a new value for the QUIC/RTP/SAVP protocol.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-2.1.2-2">
-<pre>
-   media-field =         %s"m" "=" media SP port \["/" integer\]
-                             SP proto 1*(SP fmt) CRLF
-
-   m= line parameter        parameter value(s)
-   ------------------------------------------------------------------
-   &lt;media&gt;:                 (unchanged from {{RFC8866}})
-   &lt;proto&gt;:                 'QUIC/RTP/SAVP'
-   &lt;port&gt;:                  UDP port number
-   &lt;fmt&gt;:                   (unchanged from {{RFC8866}})
-</pre><a href="#section-2.1.2-2" class="pilcrow">¶</a>
-</div>
+<p id="section-2.1.2-1">RTP that is encapsulated in QUIC payloads will always be encrypted <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>. So, should we register (for example)<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.1.2-2.1">QUIC/RTP/AVPF, knowing that any RTP payload using the QUIC protocol is encrypted, but is not SDES, or<a href="#section-2.1.2-2.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2.1.2-2.2">QUIC/RTP/SAVPF, because QUIC encryption provides at least an equivalent level of protection to SDES, or<a href="#section-2.1.2-2.2" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2.1.2-2.3">both QUIC/RTP/AVPF and QUIC/RTP/SAVPF, to minimize the changes necessary for existing RTP applications to add support for QUIC encapsulation?<a href="#section-2.1.2-2.3" class="pilcrow">¶</a>
+</li>
+          </ul>
 </section>
 </div>
-<div id="avpf">
+<div id="encapsulations-in-datagrams-and-streams">
 <section id="section-2.1.3">
-          <h4 id="name-the-quic-rtp-avpf-proto">
-<a href="#section-2.1.3" class="section-number selfRef">2.1.3. </a><a href="#name-the-quic-rtp-avpf-proto" class="section-name selfRef">The QUIC/RTP/AVPF proto</a>
+          <h4 id="name-encapsulations-in-datagrams">
+<a href="#section-2.1.3" class="section-number selfRef">2.1.3. </a><a href="#name-encapsulations-in-datagrams" class="section-name selfRef">Encapsulations in Datagrams and Streams</a>
           </h4>
-<p id="section-2.1.3-1">The following is an update to the ABNF for an 'm' line, as specified by <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>, that defines a new value for the QUIC/RTP/AVPF protocol.<a href="#section-2.1.3-1" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-2.1.3-2">
-<pre>
-   media-field =         %s"m" "=" media SP port \["/" integer\]
-                             SP proto 1*(SP fmt) CRLF
-
-   m= line parameter        parameter value(s)
-   ------------------------------------------------------------------
-   &lt;media&gt;:                 (unchanged from {{RFC8866}})
-   &lt;proto&gt;:                 'QUIC/RTP/AVPF'
-   &lt;port&gt;:                  UDP port number
-   &lt;fmt&gt;:                   (unchanged from {{RFC8866}})
-</pre><a href="#section-2.1.3-2" class="pilcrow">¶</a>
-</div>
-</section>
-</div>
-<div id="savpf">
-<section id="section-2.1.4">
-          <h4 id="name-the-quic-rtp-savpf-proto">
-<a href="#section-2.1.4" class="section-number selfRef">2.1.4. </a><a href="#name-the-quic-rtp-savpf-proto" class="section-name selfRef">The QUIC/RTP/SAVPF proto</a>
-          </h4>
-<p id="section-2.1.4-1">The following is an update to the ABNF for an 'm' line, as specified by <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>, that defines a new value for the QUIC/RTP/SAVPF protocol.<a href="#section-2.1.4-1" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-2.1.4-2">
-<pre>
-   media-field =         %s"m" "=" media SP port \["/" integer\]
-                             SP proto 1*(SP fmt) CRLF
-
-   m= line parameter        parameter value(s)
-   ------------------------------------------------------------------
-   &lt;media&gt;:                 (unchanged from {{RFC8866}})
-   &lt;proto&gt;:                 'QUIC/RTP/SAVPF'
-   &lt;port&gt;:                  UDP port number
-   &lt;fmt&gt;:                   (unchanged from {{RFC8866}})
-</pre><a href="#section-2.1.4-2" class="pilcrow">¶</a>
-</div>
+<p id="section-2.1.3-1">We note that <span>[<a href="#SDP-parameters" class="xref">SDP-parameters</a>]</span> contains registrations for both RTP encapsulated in UDP datagrams and RTP encapsulated in TCP streams.<a href="#section-2.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.3-2">If we wanted to allow the same level of flexibility for QUIC/RTP, we could register (for example) QUIC/DGRAM/RTP, mapped onto QUIC datagrams (<span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span>), and QUIC/STREAM/RTP, mapped onto QUIC streams (<span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>), reusing terminology from the Berkley Sockets API.<a href="#section-2.1.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.3-3">Should we do that? If so, starting out that way would be better than starting out with QUIC/RTP and then adding QUIC/STREAM/RTP later.<a href="#section-2.1.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
-<div id="a-quicrtpavpf-offer">
+<div id="useful-support-for-existing-rtp-extensions">
 <section id="section-2.2">
-        <h3 id="name-a-quic-rtp-avpf-offer">
-<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-a-quic-rtp-avpf-offer" class="section-name selfRef">A QUIC/RTP/AVPF Offer</a>
+        <h3 id="name-useful-support-for-existing">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-useful-support-for-existing" class="section-name selfRef">Useful Support For Existing RTP Extensions</a>
         </h3>
-<p id="section-2.2-1">A complete example of an SDP offer using QUIC/RTP/AVPF might look like:<a href="#section-2.2-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-1">
-          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
-<thead>
-            <tr>
-              <th class="text-left" rowspan="1" colspan="1">SDP line</th>
-              <th class="text-left" rowspan="1" colspan="1">Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">v=0</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">o=jdoe 3724394400 3724394405 IN IP4 198.51.100.1</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">s=Call to John Smith</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">i=SDP Offer #1</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">u=http://www.jdoe.example.com/home.html</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">e=Jane Doe <a href="mailto:jane@jdoe.example.com">jane@jdoe.example.com</a>
-</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">p=+1 617 555-6011</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">c=IN IP4 198.51.100.1</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">t=0 0</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">m=audio 49170 RTP/AVP 0</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">m=audio 49180 RTP/AVP 0</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">m=video 51372 QUIC/RTP/AVPF 99</td>
-              <td class="text-left" rowspan="1" colspan="1">QUIC transport</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">a=setup:passive</td>
-              <td class="text-left" rowspan="1" colspan="1">will wait for QUIC handshake (setup attribute from <span>[<a href="#RFC4145" class="xref">RFC4145</a>]</span>)</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">a=connection:new</td>
-              <td class="text-left" rowspan="1" colspan="1">don't want to reuse an existing QUIC connection (connection attribute from <span>[<a href="#RFC4145" class="xref">RFC4145</a>]</span>)</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">c=IN IP6 2001:db8::2</td>
-              <td class="text-left" rowspan="1" colspan="1">Same as <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>
-</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">a=rtpmap:99 h266/90000</td>
-              <td class="text-left" rowspan="1" colspan="1">H.266 VVC codec <span>[<a href="#I-D.ietf-avtcore-rtp-vvc" class="xref">I-D.ietf-avtcore-rtp-vvc</a>]</span>
-</td>
-            </tr>
-          </tbody>
-        </table>
-<p id="section-2.2-3">This example is largely based on an example appearing in <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>, Section 5, but is using QUIC/RTP/AVPF to support a newer codec.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
-<p id="section-2.2-4">Because QUIC uses connections for both streams and datagrams, we are reusing two session- and media-level SDP attributes from <span>[<a href="#SDP-attribute-name" class="xref">SDP-attribute-name</a>]</span> that were defined in <span>[<a href="#RFC4145" class="xref">RFC4145</a>]</span> for use with TCP: setup and connection.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
-<p id="section-2.2-5">This example SDP offer might be included in a SIP Invite.<a href="#section-2.2-5" class="pilcrow">¶</a></p>
+<p id="section-2.2-1">Although these questions may not directly impact the descriptions and IANA registrations in <span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>, they are likely worth mentioning in that document.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-2">It seems useful to confirm that we can assume support for "Multiplexing RTP Data and Control Packets on a Single Port", as described in <span>[<a href="#RFC5761" class="xref">RFC5761</a>]</span>.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.2-3">It seems useful to confirm that we can assume support for Media Multiplexing ("BUNDLE"), as described in <span>[<a href="#RFC8843" class="xref">RFC8843</a>]</span>.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.2-4">Are there other RTP extensions that we can assume support for?<a href="#section-2.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="feedback-mechanisms">
+<section id="section-2.3">
+        <h3 id="name-feedback-mechanisms">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-feedback-mechanisms" class="section-name selfRef">Feedback Mechanisms</a>
+        </h3>
+<p id="section-2.3-1">RTP has relied on RTCP as its feedback mechanism for decades, but that mechanism has evolved over time, with the addition of AVPF feedback (<span>[<a href="#RFC4585" class="xref">RFC4585</a>]</span>), and subsequent extensions (for example, the codec control messages defined in <span>[<a href="#RFC5104" class="xref">RFC5104</a>]</span>).<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">Can we assume that RTP applications using QUIC as their transport encapsulation will continue to use AVPF as the basis for feedback mechanisms, largely unchanged?<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.3-3.1">Perhaps some applications will do so.<a href="#section-2.3-3.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-2.3-3.2">For example, <span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span> proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality.<a href="#section-2.3-3.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-2.3-3.3">Conversely, <span>[<a href="#RIST-Simple-Prof" class="xref">RIST-Simple-Prof</a>]</span> extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request.<a href="#section-2.3-3.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+<div id="potential-extensions-to-quic-and-quic-related-specifications">
+<section id="section-2.4">
+        <h3 id="name-potential-extensions-to-qui">
+<a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-potential-extensions-to-qui" class="section-name selfRef">Potential Extensions To QUIC and QUIC-related Specifications</a>
+        </h3>
+<p id="section-2.4-1">Because the topics in this section are speculative, it's not clear whether they would have any impact on SDP description and IANA registration in <span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<div id="support-for-nat-traversal">
+<section id="section-2.4.1">
+          <h4 id="name-support-for-nat-traversal">
+<a href="#section-2.4.1" class="section-number selfRef">2.4.1. </a><a href="#name-support-for-nat-traversal" class="section-name selfRef">Support for NAT Traversal</a>
+          </h4>
+<p id="section-2.4.1-1">From <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>, Section 8.2:<a href="#section-2.4.1-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-2.4.1-2.1">
+              <p id="section-2.4.1-2.1.1">Path validation is not designed as a NAT traversal mechanism. Though the mechanism described here might be effective for the creation of NAT bindings that support NAT traversal, the expectation is that one endpoint is able to receive packets without first having sent a packet on that path. Effective NAT traversal needs additional synchronization mechanisms that are not provided here.<a href="#section-2.4.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-2.4.1-3">It's worth noting that the driving use cases for the first version of IETF QUIC have been for HTTP-based web access, where the capability described in <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span> was sufficient, while many existing applications using RTP also require support for NAT traversal. If we need NAT traversal for QUIC/RTP applications, we need to look at existing NAT traversal mechanisms, and determine whether they are sufficient, and can be included in SDP Offer/Answer for QUIC/RTP communication without modification.<a href="#section-2.4.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="quic-datagram-multiplexing">
+<section id="section-2.4.2">
+          <h4 id="name-quic-datagram-multiplexing">
+<a href="#section-2.4.2" class="section-number selfRef">2.4.2. </a><a href="#name-quic-datagram-multiplexing" class="section-name selfRef">QUIC Datagram Multiplexing</a>
+          </h4>
+<p id="section-2.4.2-1"><span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span> does not provide support for a standardized datagram multiplexing identifier, for reasons described in Section 5.1, and at greater length in the Github issue about this (at https://github.com/quicwg/datagram/issues/6).<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2-2">The high-level explanation is that there was considerable support for adding a datagram multiplexing identifier to the datagram frame type, but much less agreement about what effect that identifier would have, and whether the QUIC transport layer would be responsible for any particular processing, or whether this processing would necessarily be performed by the application.<a href="#section-2.4.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.4.2-3">In general, that's a fine plan. The question for this document is whether there is enough similarity for various applications using QUIC/RTP that specifying an RTP-specific datagram multiplier would provide better predictability and ability to multiplex datagrams from different applications without modifying those applications when they encounter each other for the first time.<a href="#section-2.4.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -1450,59 +1352,7 @@ address div.right {
       <h2 id="name-iana-considerations">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-3-1">This document registers these protocols in the proto registry (<span>[<a href="#SDP-parameters" class="xref">SDP-parameters</a>]</span>).<a href="#section-3-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3-2.1">QUIC (<a href="#quic" class="xref">Section 2.1.1</a>)<a href="#section-3-2.1" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-3-2.2">QUIC/RTP/SAVP (<a href="#savp" class="xref">Section 2.1.2</a>)<a href="#section-3-2.2" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-3-2.3">QUIC/RTP/AVPF (<a href="#avpf" class="xref">Section 2.1.3</a>)<a href="#section-3-2.3" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-3-2.4">QUIC/RTP/SAVPF (<a href="#savpf" class="xref">Section 2.1.4</a>)<a href="#section-3-2.4" class="pilcrow">¶</a>
-</li>
-      </ul>
-<div id="proto-registrations">
-<section id="section-3.1">
-        <h3 id="name-proto-registrations">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-proto-registrations" class="section-name selfRef">Proto Registrations</a>
-        </h3>
-<p id="section-3.1-1">IANA is requested to add these protocols to the Session Description Protocol (SDP) Parameters proto registry (<span>[<a href="#SDP-parameters" class="xref">SDP-parameters</a>]</span>).<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<table class="center" id="table-2">
-          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
-<thead>
-            <tr>
-              <th class="text-left" rowspan="1" colspan="1">Type</th>
-              <th class="text-left" rowspan="1" colspan="1">SDP Name</th>
-              <th class="text-left" rowspan="1" colspan="1">Reference</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">proto</td>
-              <td class="text-left" rowspan="1" colspan="1">QUIC</td>
-              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">proto</td>
-              <td class="text-left" rowspan="1" colspan="1">QUIC/RTP/SAVP</td>
-              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">proto</td>
-              <td class="text-left" rowspan="1" colspan="1">QUIC/RTP/AVPF</td>
-              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">proto</td>
-              <td class="text-left" rowspan="1" colspan="1">QUIC/RTP/SAVPF</td>
-              <td class="text-left" rowspan="1" colspan="1">RFCXXXX</td>
-            </tr>
-          </tbody>
-        </table>
-<p id="section-3.1-3"><strong>Note to the RFC Editor</strong><a href="#section-3.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.1-4">Please replace "RFCXXXX" with the assigned RFC number, when that is available, and remove this note.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
-</section>
-</div>
+<p id="section-3-1">This document makes no requests of IANA.<a href="#section-3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
@@ -1510,10 +1360,7 @@ address div.right {
       <h2 id="name-security-considerations">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-4-1">Security considerations for the QUIC protocol are described in the corresponding section in <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">Security considerations for the TLS handshake used to secure QUIC are described in <span>[<a href="#RFC9001" class="xref">RFC9001</a>]</span>.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">Security considerations for SDP are described in the corresponding section in <span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">Security considerations for SDP offer/answer are described in the cooresponding section in <span>[<a href="#RFC3264" class="xref">RFC3264</a>]</span>.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-1">This document is intended as the basis for discussion about protocol mechanisms that will be described in other documents. As a discussion paper, this document introduces no new security considerations, and any new security considerations resulting from those discussions should be included in the documents that actually describe protocol mechanisms.<a href="#section-4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="acknowledgments">
@@ -1521,13 +1368,14 @@ address div.right {
       <h2 id="name-acknowledgments">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="section-5-1">My appreciation to the authors of <span>[<a href="#RFC4145" class="xref">RFC4145</a>]</span>, which served as a model for the initial structure of this document.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">Thanks to thse folks for helping to improve this draft:<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-1">Thanks to thse folks for helping to improve this draft:<a href="#section-5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5-3.1">Colin Perkins<a href="#section-5-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5-2.1">Colin Perkins<a href="#section-5-2.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-5-2.2">Richard Bradbury<a href="#section-5-2.2" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-5-4">(Your name also could appear here. Please comment and contribute, as per <a href="#contrib" class="xref">Section 1.3</a>).<a href="#section-5-4" class="pilcrow">¶</a></p>
+<p id="section-5-3">(Your name also could appear here. Please comment and contribute, as described in "Contribution and Discussion Venues for this draft".).<a href="#section-5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-6">
@@ -1539,6 +1387,22 @@ address div.right {
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.engelbart-rtp-over-quic">[I-D.engelbart-rtp-over-quic]</dt>
+        <dd>
+<span class="refAuthor">Ott, J.</span> and <span class="refAuthor">M. Engelbart</span>, <span class="refTitle">"RTP over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-engelbart-rtp-over-quic-00</span>, <time datetime="2021-07-12" class="refDate">12 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-engelbart-rtp-over-quic-00">https://datatracker.ietf.org/doc/html/draft-engelbart-rtp-over-quic-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.hurst-quic-rtp-tunnelling">[I-D.hurst-quic-rtp-tunnelling]</dt>
+        <dd>
+<span class="refAuthor">Hurst, S.</span>, <span class="refTitle">"QRT: QUIC RTP Tunnelling"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-hurst-quic-rtp-tunnelling-01</span>, <time datetime="2021-01-28" class="refDate">28 January 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-hurst-quic-rtp-tunnelling-01">https://datatracker.ietf.org/doc/html/draft-hurst-quic-rtp-tunnelling-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-quic-datagram">[I-D.ietf-quic-datagram]</dt>
+        <dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Kinnear, E.</span>, and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"An Unreliable Datagram Extension to QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-datagram-04</span>, <time datetime="2021-09-08" class="refDate">8 September 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-datagram-04">https://datatracker.ietf.org/doc/html/draft-ietf-quic-datagram-04</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.rtpfolks-quic-rtp-over-quic">[I-D.rtpfolks-quic-rtp-over-quic]</dt>
+        <dd>
+<span class="refAuthor">Ott, J.</span>, <span class="refAuthor">Even, R.</span>, <span class="refAuthor">Perkins, C.</span>, and <span class="refAuthor">V. Singh</span>, <span class="refTitle">"RTP over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-rtpfolks-quic-rtp-over-quic-01</span>, <time datetime="2017-09-01" class="refDate">1 September 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-rtpfolks-quic-rtp-over-quic-01">https://datatracker.ietf.org/doc/html/draft-rtpfolks-quic-rtp-over-quic-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>&gt;</span>. </dd>
@@ -1555,6 +1419,10 @@ address div.right {
         <dd>
 <span class="refAuthor">Schulzrinne, H.</span>, <span class="refAuthor">Casner, S.</span>, <span class="refAuthor">Frederick, R.</span>, and <span class="refAuthor">V. Jacobson</span>, <span class="refTitle">"RTP: A Transport Protocol for Real-Time Applications"</span>, <span class="seriesInfo">STD 64</span>, <span class="seriesInfo">RFC 3550</span>, <span class="seriesInfo">DOI 10.17487/RFC3550</span>, <time datetime="2003-07" class="refDate">July 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3550">https://datatracker.ietf.org/doc/html/rfc3550</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3551">[RFC3551]</dt>
+        <dd>
+<span class="refAuthor">Schulzrinne, H.</span> and <span class="refAuthor">S. Casner</span>, <span class="refTitle">"RTP Profile for Audio and Video Conferences with Minimal Control"</span>, <span class="seriesInfo">STD 65</span>, <span class="seriesInfo">RFC 3551</span>, <span class="seriesInfo">DOI 10.17487/RFC3551</span>, <time datetime="2003-07" class="refDate">July 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3551">https://datatracker.ietf.org/doc/html/rfc3551</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC3711">[RFC3711]</dt>
         <dd>
 <span class="refAuthor">Baugher, M.</span>, <span class="refAuthor">McGrew, D.</span>, <span class="refAuthor">Naslund, M.</span>, <span class="refAuthor">Carrara, E.</span>, and <span class="refAuthor">K. Norrman</span>, <span class="refTitle">"The Secure Real-time Transport Protocol (SRTP)"</span>, <span class="seriesInfo">RFC 3711</span>, <span class="seriesInfo">DOI 10.17487/RFC3711</span>, <time datetime="2004-03" class="refDate">March 2004</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3711">https://datatracker.ietf.org/doc/html/rfc3711</a>&gt;</span>. </dd>
@@ -1562,6 +1430,10 @@ address div.right {
 <dt id="RFC4585">[RFC4585]</dt>
         <dd>
 <span class="refAuthor">Ott, J.</span>, <span class="refAuthor">Wenger, S.</span>, <span class="refAuthor">Sato, N.</span>, <span class="refAuthor">Burmeister, C.</span>, and <span class="refAuthor">J. Rey</span>, <span class="refTitle">"Extended RTP Profile for Real-time Transport Control Protocol (RTCP)-Based Feedback (RTP/AVPF)"</span>, <span class="seriesInfo">RFC 4585</span>, <span class="seriesInfo">DOI 10.17487/RFC4585</span>, <time datetime="2006-07" class="refDate">July 2006</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc4585">https://datatracker.ietf.org/doc/html/rfc4585</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5104">[RFC5104]</dt>
+        <dd>
+<span class="refAuthor">Wenger, S.</span>, <span class="refAuthor">Chandra, U.</span>, <span class="refAuthor">Westerlund, M.</span>, and <span class="refAuthor">B. Burman</span>, <span class="refTitle">"Codec Control Messages in the RTP Audio-Visual Profile with Feedback (AVPF)"</span>, <span class="seriesInfo">RFC 5104</span>, <span class="seriesInfo">DOI 10.17487/RFC5104</span>, <time datetime="2008-02" class="refDate">February 2008</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc5104">https://datatracker.ietf.org/doc/html/rfc5104</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5124">[RFC5124]</dt>
         <dd>
@@ -1595,6 +1467,10 @@ address div.right {
         <dd>
 <span class="refAuthor">Thomson, M., Ed.</span> and <span class="refAuthor">S. Turner, Ed.</span>, <span class="refTitle">"Using TLS to Secure QUIC"</span>, <span class="seriesInfo">RFC 9001</span>, <span class="seriesInfo">DOI 10.17487/RFC9001</span>, <time datetime="2021-05" class="refDate">May 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc9001">https://datatracker.ietf.org/doc/html/rfc9001</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RIST-Simple-Prof">[RIST-Simple-Prof]</dt>
+        <dd>
+<span class="refTitle">"Reliable Internet Stream Transport (RIST) Protocol Specification – Simple Profile"</span>, <time datetime="2021-09" class="refDate">September 2021</time>, <span>&lt;<a href="https://vsf.tv/download/technical_recommendations/VSF_TR-06-1_2020_06_25.pdf">https://vsf.tv/download/technical_recommendations/VSF_TR-06-1_2020_06_25.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="SDP-attribute-name">[SDP-attribute-name]</dt>
         <dd>
 <span class="refTitle">"SDP Parameters - attribute-name"</span>, <time datetime="2021-09" class="refDate">September 2021</time>, <span>&lt;<a href="https://www.iana.org/assignments/sdp-parameters/sdp-parameters.xhtml#sdp-att-field">https://www.iana.org/assignments/sdp-parameters/sdp-parameters.xhtml#sdp-att-field</a>&gt;</span>. </dd>
@@ -1610,13 +1486,9 @@ address div.right {
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.engelbart-rtp-over-quic">[I-D.engelbart-rtp-over-quic]</dt>
+<dt id="I-D.dawkins-sdp-rtp-quic">[I-D.dawkins-sdp-rtp-quic]</dt>
         <dd>
-<span class="refAuthor">Ott, J.</span> and <span class="refAuthor">M. Engelbart</span>, <span class="refTitle">"RTP over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-engelbart-rtp-over-quic-00</span>, <time datetime="2021-07-12" class="refDate">12 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-engelbart-rtp-over-quic-00">https://datatracker.ietf.org/doc/html/draft-engelbart-rtp-over-quic-00</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.ietf-avtcore-rtp-vvc">[I-D.ietf-avtcore-rtp-vvc]</dt>
-        <dd>
-<span class="refAuthor">Zhao, S.</span>, <span class="refAuthor">Wenger, S.</span>, <span class="refAuthor">Sanchez, Y.</span>, and <span class="refAuthor">Y. Wang</span>, <span class="refTitle">"RTP Payload Format for Versatile Video Coding (VVC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-avtcore-rtp-vvc-10</span>, <time datetime="2021-07-09" class="refDate">9 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-rtp-vvc-10">https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-rtp-vvc-10</a>&gt;</span>. </dd>
+<span class="refAuthor">Dawkins, S.</span>, <span class="refTitle">"SDP Offer/Answer for RTP using QUIC as Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-dawkins-sdp-rtp-quic-00</span>, <time datetime="2021-09-08" class="refDate">8 September 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-dawkins-sdp-rtp-quic-00">https://datatracker.ietf.org/doc/html/draft-dawkins-sdp-rtp-quic-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC4145">[RFC4145]</dt>
       <dd>

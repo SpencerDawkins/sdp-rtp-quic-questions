@@ -182,7 +182,7 @@ This document is intended as the basis for discussion about protocol mechanisms 
 
 # Acknowledgments
 
-Thanks to these folks, for authoring "QUIC over RTP drafts for specific use cases, which included their understanding of SDP aspects of their proposals:
+Thanks to these folks, for authoring various "QUIC over RTP" drafts for specific use cases, which included their understanding of SDP aspects of their proposals:
 
 * Jörg Ott, Roni Even, Colin Perkins, and Varun Singh, authors of {{I-D.rtpfolks-quic-rtp-over-quic}}
 * Sam Hurst, author of {{I-D.hurst-quic-rtp-tunnelling}}

@@ -25,6 +25,3 @@ contributions in GitHub, you are encouraged to participate in discussions there.
 
 **Note**: Some working groups adopt a policy whereby substantive discussion of
 technical issues needs to occur on the mailing list.
-
-You might also like to familiarize yourself with other
-[working group documents](https://datatracker.ietf.org/wg/sdp/documents/).

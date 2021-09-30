@@ -23,6 +23,7 @@ author:
 
 normative:
 
+  RFC3264:
   RFC3550:
   RFC3551:
   RFC3711:
@@ -32,6 +33,8 @@ normative:
   RFC5761:
   RFC5124:
   RFC7301:
+  RFC7728:
+  RFC8082:
   RFC8843:
   RFC8866:
   RFC9000:
@@ -58,21 +61,17 @@ informative:
 
 --- abstract
 
-This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport". That document focuses specifically on the description and registration of SDP "proto" attribute parameters with IANA to allow QUIC to be used as an encapsulation for RTP.
+This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport". That document focuses on the description and registration of SDP "proto" attribute parameters with IANA, to allow applications that rely on SDP Offer/Answer to negotiate the QUIC protocol as an encapsulation for RTP.
 
-In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions and different proposals for those encapsulations  made different assumptions.
-
-This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions.
+In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about the way RTP would be encapsulated in QUIC, and different proposals for those encapsulations had made different assumptions. Given that none of these proposals have been adopted by an IETF working group yet, it's not appropriate to try to base a general-purpose set of "QUIC/RTP" IANA registrations on any one of them, so this document includes the questions that have come up, and (as discussions progress) suggested answers for those questions.
 
 --- middle
 
 # Introduction {#intro}
 
-This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport" ({{I-D.dawkins-sdp-rtp-quic}}). That document focuses specifically on the description and registration of SDP ({{RFC8866}}) "proto" attribute parameters with IANA ({{SDP-parameters}}) to allow QUIC to be used as an encapsulation for RTP ({{RFC3550}}).
+This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport" ({{I-D.dawkins-sdp-rtp-quic}}). That document focuses on the description and registration of SDP ({{RFC8866}}) "proto" attribute parameters with IANA ({{SDP-parameters}}), to allow applications that rely on SDP Offer/Answer ({{RFC3264}}) to negotiate the QUIC protocol({{RFC9000}}) as an encapsulation for RTP ({{RFC3550}}).
 
-In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about RTP encapsulations onto the QUIC protocol ({{RFC9000}}), and different proposals for those encapsulations ({{I-D.engelbart-rtp-over-quic}}, {{I-D.hurst-quic-rtp-tunnelling}}, and {{I-D.rtpfolks-quic-rtp-over-quic}}) made different assumptions.
-
-This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions.
+In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about the way RTP would be encapsulated in QUIC, and different proposals for those encapsulations ({{I-D.engelbart-rtp-over-quic}}, {{I-D.hurst-quic-rtp-tunnelling}}, and {{I-D.rtpfolks-quic-rtp-over-quic}}) had made different assumptions. Given that none of these proposals have been adopted by an IETF working group yet, it's not appropriate to try to base a general-purpose set of "QUIC/RTP" IANA registrations on any one of them, so this document includes the questions that have come up, and (as discussions progress) suggested answers for those questions.
 
 ## Notes for Readers {#readernotes}
 
@@ -115,7 +114,7 @@ RTP that is encapsulated in QUIC payloads will always be encrypted {{RFC9000}}. 
 
 We note that {{SDP-parameters}} contains registrations for both RTP encapsulated in UDP datagrams and RTP encapsulated in TCP streams.
 
-If we wanted to allow the same level of flexibility for QUIC/RTP, we could register (for example) QUIC/DGRAM/RTP, mapped onto QUIC datagrams ({{I-D.ietf-quic-datagram}}), and QUIC/STREAM/RTP, mapped onto QUIC streams ({{RFC9000}}), reusing terminology from the Berkley Sockets API.
+If we wanted to allow the same level of flexibility for QUIC/RTP, we could register (for example) QUIC/DGRAM/RTP, mapped onto QUIC datagrams ({{I-D.ietf-quic-datagram}}), and QUIC/STREAM/RTP, mapped onto QUIC streams ({{RFC9000}}), reusing terminology from the Berkeley Sockets API.
 
 Should we do that? If so, starting out that way would be better than starting out with QUIC/RTP and then adding QUIC/STREAM/RTP later.
 
@@ -132,17 +131,19 @@ Are there other RTP extensions that we can assume support for?
 
 ## Feedback Mechanisms
 
-RTP has relied on RTCP as its feedback mechanism for decades, as that mechanism has evolved over time, with the addition of AVPF feedback ({{RFC4585}}), and subsequent extensions (for example, the codec control messages defined in {{RFC5104}}).
+RTP has relied on RTCP as its feedback mechanism for decades, as that mechanism has evolved over time, with the addition of AVPF feedback ({{RFC4585}}), and subsequent extensions (for example, the codec control messages defined in {{RFC5104}} and extended in {{RFC7728}} and {{RFC8082}}).
 
 Should we assume that RTP applications using QUIC as their transport encapsulation will continue to use AVPF as the basis for feedback mechanisms, largely unchanged?
 
-- Perhaps some applications will do so.
-- However, {{I-D.engelbart-rtp-over-quic}} proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality.
-- Conversely, {{RIST-Simple-Prof}} extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request.
+Perhaps some applications will do so.
+
+However, {{I-D.engelbart-rtp-over-quic}} proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality. Conversely, {{RIST-Simple-Prof}} extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request.
+
+If there's not one answer to that question, the choice among feedback mechanisms will need to be included in SDP Offer/Answer.
 
 ## Potential Extensions To QUIC and QUIC-related Specifications
 
-Because the topics in this section are speculative, it's not clear whether they would have any impact on SDP description and IANA registration in {{I-D.dawkins-sdp-rtp-quic}}. THey're included in this document for completeness.
+Because the topics in this section are speculative, it's not clear whether they would have any impact on SDP description and IANA registration in {{I-D.dawkins-sdp-rtp-quic}}. They are included in this document for completeness.
 
 ### QUIC Datagram Multiplexing
 
@@ -156,7 +157,7 @@ In general, that's a fine plan. The question for this document is whether there 
 
 ### RTP Destination Transport Addresses, Bundles, and QUIC Connection-IDs
 
-RTP has more than one way to identifying endpoints, whether {{RFC3550}}-style destination three-tuples, or {{RFC4961}}-style Symmetric RTP and RTCP, or {{RFC8843}}-style BUNDLE transport, but all are based on IP addresses and port addresses, in various ways.
+RTP has more than one way to identify endpoints, whether {{RFC3550}}-style destination three-tuples, or {{RFC4961}}-style Symmetric RTP and RTCP, or {{RFC8843}}-style BUNDLE transport, but all are based on IP addresses and port addresses.
 
 The QUIC protocol also starts out with five-tuple awareness as it establishes a connection and performs TLS 1.3 handshake between the client and server, as described in {{RFC9001}}, and performs path validation, as described in {{RFC9000}}, but can also create multiple connection identifiers using different transport addresses that will be associated with the same connection, and when another path has been validated and associated with a known connection identifier, the QUIC endpoint can begin receiving packets for the same connection from an entirely different transport address, with no other signaling. This change of transport addresses might be the result of QUIC-level "connection migration", but might also be the result of NAT rebinding.
 

@@ -6,11 +6,10 @@
 <meta content="initial-scale=1.0" name="viewport">
 <title>SDP Offer/Answer for RTP using QUIC as Transport - Design Questions</title>
 <meta content="Spencer Dawkins" name="author">
-<meta content='
-       This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport". That document focuses specifically on the description and registration of SDP "proto" attribute parameters with IANA to allow QUIC to be used as an encapsulation for RTP. 
-       In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions and different proposals for those encapsulations  made different assumptions. 
-       This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions. 
-    ' name="description">
+<meta content="
+       This document is a companion document to &quot;SDP Offer/Answer for RTP using QUIC as Transport&quot;. That document focuses on the description and registration of SDP &quot;proto&quot; attribute parameters with IANA, to allow applications that rely on SDP Offer/Answer to negotiate the QUIC protocol as an encapsulation for RTP. 
+       In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about the way RTP would be encapsulated in QUIC, and different proposals for those encapsulations had made different assumptions. Given that none of these proposals have been adopted by an IETF working group yet, it's not appropriate to try to base a general-purpose set of &quot;QUIC/RTP&quot; IANA registrations on any one of them, so this document includes the questions that have come up, and (as discussions progress) suggested answers for those questions. 
+    " name="description">
 <meta content="xml2rfc 3.10.0" name="generator">
 <meta content="Internet-Draft QUIC RTP SDP" name="keyword">
 <meta content="draft-dawkins-sdp-rtp-quic-questions-latest" name="ietf.draft">
@@ -1023,7 +1022,7 @@ address div.right {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Dawkins</td>
-<td class="center">Expires 31 March 2022</td>
+<td class="center">Expires 3 April 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1036,12 +1035,12 @@ address div.right {
 <dd class="internet-draft">draft-dawkins-sdp-rtp-quic-questions-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-09-27" class="published">27 September 2021</time>
+<time datetime="2021-09-30" class="published">30 September 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-03-31">31 March 2022</time></dd>
+<dd class="expires"><time datetime="2022-04-03">3 April 2022</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1054,9 +1053,8 @@ address div.right {
 <h1 id="title">SDP Offer/Answer for RTP using QUIC as Transport - Design Questions</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport". That document focuses specifically on the description and registration of SDP "proto" attribute parameters with IANA to allow QUIC to be used as an encapsulation for RTP.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
-<p id="section-abstract-2">In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions and different proposals for those encapsulations  made different assumptions.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
-<p id="section-abstract-3">This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions.<a href="#section-abstract-3" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport". That document focuses on the description and registration of SDP "proto" attribute parameters with IANA, to allow applications that rely on SDP Offer/Answer to negotiate the QUIC protocol as an encapsulation for RTP.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about the way RTP would be encapsulated in QUIC, and different proposals for those encapsulations had made different assumptions. Given that none of these proposals have been adopted by an IETF working group yet, it's not appropriate to try to base a general-purpose set of "QUIC/RTP" IANA registrations on any one of them, so this document includes the questions that have come up, and (as discussions progress) suggested answers for those questions.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-discussion-venues">
@@ -1089,7 +1087,7 @@ address div.right {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 31 March 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1200,9 +1198,8 @@ address div.right {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport" (<span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>). That document focuses specifically on the description and registration of SDP (<span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>) "proto" attribute parameters with IANA (<span>[<a href="#SDP-parameters" class="xref">SDP-parameters</a>]</span>) to allow QUIC to be used as an encapsulation for RTP (<span>[<a href="#RFC3550" class="xref">RFC3550</a>]</span>).<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about RTP encapsulations onto the QUIC protocol (<span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>), and different proposals for those encapsulations (<span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span>, <span>[<a href="#I-D.hurst-quic-rtp-tunnelling" class="xref">I-D.hurst-quic-rtp-tunnelling</a>]</span>, and <span>[<a href="#I-D.rtpfolks-quic-rtp-over-quic" class="xref">I-D.rtpfolks-quic-rtp-over-quic</a>]</span>) made different assumptions.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This document includes questions that have come up in efforts to describe a general-purpose set of "QUIC/RTP" IANA registrations, and (as discussions progress) suggested answers for those questions.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-1">This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport" (<span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>). That document focuses on the description and registration of SDP (<span>[<a href="#RFC8866" class="xref">RFC8866</a>]</span>) "proto" attribute parameters with IANA (<span>[<a href="#SDP-parameters" class="xref">SDP-parameters</a>]</span>), to allow applications that rely on SDP Offer/Answer (<span>[<a href="#RFC3264" class="xref">RFC3264</a>]</span>) to negotiate the QUIC protocol(<span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>) as an encapsulation for RTP (<span>[<a href="#RFC3550" class="xref">RFC3550</a>]</span>).<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about the way RTP would be encapsulated in QUIC, and different proposals for those encapsulations (<span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span>, <span>[<a href="#I-D.hurst-quic-rtp-tunnelling" class="xref">I-D.hurst-quic-rtp-tunnelling</a>]</span>, and <span>[<a href="#I-D.rtpfolks-quic-rtp-over-quic" class="xref">I-D.rtpfolks-quic-rtp-over-quic</a>]</span>) had made different assumptions. Given that none of these proposals have been adopted by an IETF working group yet, it's not appropriate to try to base a general-purpose set of "QUIC/RTP" IANA registrations on any one of them, so this document includes the questions that have come up, and (as discussions progress) suggested answers for those questions.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <div id="readernotes">
 <section id="section-1.1">
         <h3 id="name-notes-for-readers">
@@ -1275,7 +1272,7 @@ address div.right {
 <a href="#section-2.1.3" class="section-number selfRef">2.1.3. </a><a href="#name-encapsulations-in-datagrams" class="section-name selfRef">Encapsulations in Datagrams and Streams</a>
           </h4>
 <p id="section-2.1.3-1">We note that <span>[<a href="#SDP-parameters" class="xref">SDP-parameters</a>]</span> contains registrations for both RTP encapsulated in UDP datagrams and RTP encapsulated in TCP streams.<a href="#section-2.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.1.3-2">If we wanted to allow the same level of flexibility for QUIC/RTP, we could register (for example) QUIC/DGRAM/RTP, mapped onto QUIC datagrams (<span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span>), and QUIC/STREAM/RTP, mapped onto QUIC streams (<span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>), reusing terminology from the Berkley Sockets API.<a href="#section-2.1.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.3-2">If we wanted to allow the same level of flexibility for QUIC/RTP, we could register (for example) QUIC/DGRAM/RTP, mapped onto QUIC datagrams (<span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span>), and QUIC/STREAM/RTP, mapped onto QUIC streams (<span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>), reusing terminology from the Berkeley Sockets API.<a href="#section-2.1.3-2" class="pilcrow">¶</a></p>
 <p id="section-2.1.3-3">Should we do that? If so, starting out that way would be better than starting out with QUIC/RTP and then adding QUIC/STREAM/RTP later.<a href="#section-2.1.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1302,16 +1299,11 @@ address div.right {
         <h3 id="name-feedback-mechanisms">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-feedback-mechanisms" class="section-name selfRef">Feedback Mechanisms</a>
         </h3>
-<p id="section-2.3-1">RTP has relied on RTCP as its feedback mechanism for decades, as that mechanism has evolved over time, with the addition of AVPF feedback (<span>[<a href="#RFC4585" class="xref">RFC4585</a>]</span>), and subsequent extensions (for example, the codec control messages defined in <span>[<a href="#RFC5104" class="xref">RFC5104</a>]</span>).<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">RTP has relied on RTCP as its feedback mechanism for decades, as that mechanism has evolved over time, with the addition of AVPF feedback (<span>[<a href="#RFC4585" class="xref">RFC4585</a>]</span>), and subsequent extensions (for example, the codec control messages defined in <span>[<a href="#RFC5104" class="xref">RFC5104</a>]</span> and extended in <span>[<a href="#RFC7728" class="xref">RFC7728</a>]</span> and <span>[<a href="#RFC8082" class="xref">RFC8082</a>]</span>).<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.3-2">Should we assume that RTP applications using QUIC as their transport encapsulation will continue to use AVPF as the basis for feedback mechanisms, largely unchanged?<a href="#section-2.3-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-2.3-3.1">Perhaps some applications will do so.<a href="#section-2.3-3.1" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-2.3-3.2">However, <span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span> proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality.<a href="#section-2.3-3.2" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-2.3-3.3">Conversely, <span>[<a href="#RIST-Simple-Prof" class="xref">RIST-Simple-Prof</a>]</span> extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request.<a href="#section-2.3-3.3" class="pilcrow">¶</a>
-</li>
-        </ul>
+<p id="section-2.3-3">Perhaps some applications will do so.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">However, <span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span> proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality. Conversely, <span>[<a href="#RIST-Simple-Prof" class="xref">RIST-Simple-Prof</a>]</span> extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-5">If there's not one answer to that question, the choice among feedback mechanisms will need to be included in SDP Offer/Answer.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="potential-extensions-to-quic-and-quic-related-specifications">
@@ -1319,7 +1311,7 @@ address div.right {
         <h3 id="name-potential-extensions-to-qui">
 <a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-potential-extensions-to-qui" class="section-name selfRef">Potential Extensions To QUIC and QUIC-related Specifications</a>
         </h3>
-<p id="section-2.4-1">Because the topics in this section are speculative, it's not clear whether they would have any impact on SDP description and IANA registration in <span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>. THey're included in this document for completeness.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-1">Because the topics in this section are speculative, it's not clear whether they would have any impact on SDP description and IANA registration in <span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>. They are included in this document for completeness.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 <div id="quic-datagram-multiplexing">
 <section id="section-2.4.1">
           <h4 id="name-quic-datagram-multiplexing">
@@ -1336,7 +1328,7 @@ address div.right {
           <h4 id="name-rtp-destination-transport-a">
 <a href="#section-2.4.2" class="section-number selfRef">2.4.2. </a><a href="#name-rtp-destination-transport-a" class="section-name selfRef">RTP Destination Transport Addresses, Bundles, and QUIC Connection-IDs</a>
           </h4>
-<p id="section-2.4.2-1">RTP has more than one way to identifying endpoints, whether <span>[<a href="#RFC3550" class="xref">RFC3550</a>]</span>-style destination three-tuples, or <span>[<a href="#RFC4961" class="xref">RFC4961</a>]</span>-style Symmetric RTP and RTCP, or <span>[<a href="#RFC8843" class="xref">RFC8843</a>]</span>-style BUNDLE transport, but all are based on IP addresses and port addresses, in various ways.<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.2-1">RTP has more than one way to identify endpoints, whether <span>[<a href="#RFC3550" class="xref">RFC3550</a>]</span>-style destination three-tuples, or <span>[<a href="#RFC4961" class="xref">RFC4961</a>]</span>-style Symmetric RTP and RTCP, or <span>[<a href="#RFC8843" class="xref">RFC8843</a>]</span>-style BUNDLE transport, but all are based on IP addresses and port addresses.<a href="#section-2.4.2-1" class="pilcrow">¶</a></p>
 <p id="section-2.4.2-2">The QUIC protocol also starts out with five-tuple awareness as it establishes a connection and performs TLS 1.3 handshake between the client and server, as described in <span>[<a href="#RFC9001" class="xref">RFC9001</a>]</span>, and performs path validation, as described in <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>, but can also create multiple connection identifiers using different transport addresses that will be associated with the same connection, and when another path has been validated and associated with a known connection identifier, the QUIC endpoint can begin receiving packets for the same connection from an entirely different transport address, with no other signaling. This change of transport addresses might be the result of QUIC-level "connection migration", but might also be the result of NAT rebinding.<a href="#section-2.4.2-2" class="pilcrow">¶</a></p>
 <p id="section-2.4.2-3">Applications using QUIC/RTP will need some way of managing QUIC connection identifiers, rather than transport addresses. This points to at least one potential need for a mapping of RTP semantics over QUIC, equivalent to <span>[<a href="#I-D.ietf-quic-http" class="xref">I-D.ietf-quic-http</a>]</span>.<a href="#section-2.4.2-3" class="pilcrow">¶</a></p>
 <p id="section-2.4.2-4">If QUIC/RTP applications will be making use of something like Application Layer Protocol Negotiation (ALPN) (<span>[<a href="#RFC7301" class="xref">RFC7301</a>]</span>) identifiers to select QUIC/RTP processing, as HTTP/3 does, this may point to another potential need for a mapping.<a href="#section-2.4.2-4" class="pilcrow">¶</a></p>
@@ -1429,6 +1421,10 @@ address div.right {
         <dd>
 <span class="refAuthor">Ott, J.</span>, <span class="refAuthor">Even, R.</span>, <span class="refAuthor">Perkins, C.</span>, and <span class="refAuthor">V. Singh</span>, <span class="refTitle">"RTP over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-rtpfolks-quic-rtp-over-quic-01</span>, <time datetime="2017-09-01" class="refDate">1 September 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-rtpfolks-quic-rtp-over-quic-01">https://datatracker.ietf.org/doc/html/draft-rtpfolks-quic-rtp-over-quic-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3264">[RFC3264]</dt>
+        <dd>
+<span class="refAuthor">Rosenberg, J.</span> and <span class="refAuthor">H. Schulzrinne</span>, <span class="refTitle">"An Offer/Answer Model with Session Description Protocol (SDP)"</span>, <span class="seriesInfo">RFC 3264</span>, <span class="seriesInfo">DOI 10.17487/RFC3264</span>, <time datetime="2002-06" class="refDate">June 2002</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3264">https://datatracker.ietf.org/doc/html/rfc3264</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC3550">[RFC3550]</dt>
         <dd>
 <span class="refAuthor">Schulzrinne, H.</span>, <span class="refAuthor">Casner, S.</span>, <span class="refAuthor">Frederick, R.</span>, and <span class="refAuthor">V. Jacobson</span>, <span class="refTitle">"RTP: A Transport Protocol for Real-Time Applications"</span>, <span class="seriesInfo">STD 64</span>, <span class="seriesInfo">RFC 3550</span>, <span class="seriesInfo">DOI 10.17487/RFC3550</span>, <time datetime="2003-07" class="refDate">July 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3550">https://datatracker.ietf.org/doc/html/rfc3550</a>&gt;</span>. </dd>
@@ -1464,6 +1460,14 @@ address div.right {
 <dt id="RFC7301">[RFC7301]</dt>
         <dd>
 <span class="refAuthor">Friedl, S.</span>, <span class="refAuthor">Popov, A.</span>, <span class="refAuthor">Langley, A.</span>, and <span class="refAuthor">E. Stephan</span>, <span class="refTitle">"Transport Layer Security (TLS) Application-Layer Protocol Negotiation Extension"</span>, <span class="seriesInfo">RFC 7301</span>, <span class="seriesInfo">DOI 10.17487/RFC7301</span>, <time datetime="2014-07" class="refDate">July 2014</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7301">https://datatracker.ietf.org/doc/html/rfc7301</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7728">[RFC7728]</dt>
+        <dd>
+<span class="refAuthor">Burman, B.</span>, <span class="refAuthor">Akram, A.</span>, <span class="refAuthor">Even, R.</span>, and <span class="refAuthor">M. Westerlund</span>, <span class="refTitle">"RTP Stream Pause and Resume"</span>, <span class="seriesInfo">RFC 7728</span>, <span class="seriesInfo">DOI 10.17487/RFC7728</span>, <time datetime="2016-02" class="refDate">February 2016</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7728">https://datatracker.ietf.org/doc/html/rfc7728</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8082">[RFC8082]</dt>
+        <dd>
+<span class="refAuthor">Wenger, S.</span>, <span class="refAuthor">Lennox, J.</span>, <span class="refAuthor">Burman, B.</span>, and <span class="refAuthor">M. Westerlund</span>, <span class="refTitle">"Using Codec Control Messages in the RTP Audio-Visual Profile with Feedback with Layered Codecs"</span>, <span class="seriesInfo">RFC 8082</span>, <span class="seriesInfo">DOI 10.17487/RFC8082</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8082">https://datatracker.ietf.org/doc/html/rfc8082</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8843">[RFC8843]</dt>
         <dd>

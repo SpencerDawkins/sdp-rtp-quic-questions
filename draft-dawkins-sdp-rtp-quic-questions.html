@@ -210,19 +210,6 @@ html {
   --small-font-size: 14.5px;
   scrollbar-color: #bbb #eee;
 }
-@media (prefers-color-scheme: dark) {
-html {
-  --background-color: #121212;
-  --text-color: #f0f0f0;
-  --title-color: #fff;
-  --link-color: #4da4f0;
-  --highlight-color: #282828;
-  --line-color: #444;
-  --pilcrow-weak: #444;
-  --pilcrow-strong: #666;
-  scrollbar-color: #777 #333;
-}
-}
 body {
   max-width: 600px;
   margin: 75px auto;
@@ -238,22 +225,22 @@ body {
 }
 
 /* headings */
-#title, h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: "Cabin Condensed", sans-serif;
   font-weight: 600;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-#title {
+h1#title {
   font-size: 32px;
   line-height: 40px;
   clear: both;
 }
-#title, #rfcnum {
+h1#title, h1#rfcnum {
   margin: 1.5em 0 0.2em;
 }
-#rfcnum + #title {
+h1#rfcnum + h1#title {
   margin: 0.2em 0;
 }
 
@@ -441,17 +428,22 @@ figcaption, caption {
   text-align: left;
 }
 @media screen {
-  pre {
+  pre, svg {
     display: inline-block;
     overflow-x: auto;
+  }
+  pre {
     max-width: 100%;
     width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
   }
   figure pre {
     display: block;
     width: calc(100% - 25px);
   }
-  pre + .pilcrow {
+  pre + .pilcrow, svg + .pilcrow {
     display: inline-block;
     vertical-align: text-bottom;
     padding-bottom: 8px;
@@ -465,9 +457,6 @@ aside, blockquote {
   font-style: italic;
 }
 blockquote {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
   margin: 1em 0;
 }
 cite {
@@ -1010,6 +999,34 @@ address div.right {
   font-weight: bold;
   font-size: 0.9em;
 }
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+html {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+/* Trick: a prefix match works because only black and white are allowed */
+svg [stroke="black"], svg [stroke^="#000"] {
+  stroke: var(--text-color);
+}
+svg [stroke="white"], svg [stroke^="#fff"] {
+  stroke: var(--background-color);
+}
+svg [fill="black"], svg [fill^="#000"], svg :not([fill]) {
+  fill: var(--text-color);
+}
+svg [stroke="fill"], svg [fill^="#fff"] {
+  fill: var(--background-color);
+}
+}
 </style>
 
 </head>
@@ -1018,11 +1035,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SDP O/A for RTP over QUIC</td>
-<td class="right">September 2021</td>
+<td class="right">October 2021</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Dawkins</td>
-<td class="center">Expires 3 April 2022</td>
+<td class="center">Expires 28 April 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1035,12 +1052,12 @@ address div.right {
 <dd class="internet-draft">draft-dawkins-sdp-rtp-quic-questions-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-09-30" class="published">30 September 2021</time>
+<time datetime="2021-10-25" class="published">25 October 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-04-03">3 April 2022</time></dd>
+<dd class="expires"><time datetime="2022-04-28">28 April 2022</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1087,7 +1104,7 @@ address div.right {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1214,7 +1231,7 @@ address div.right {
         <h3 id="name-scope-of-this-document">
 <a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-scope-of-this-document" class="section-name selfRef">Scope of this document</a>
         </h3>
-<p id="section-1.2-1"><span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span> will necessarily reflect questions and answers contained in this document, but that discussion material will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, or some of its contents might might be included in one or more documents that describe RTP encapsulation in the QUIC protocol.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.2-1"><span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span> will almost certainly reflect answers  to the questions contained in this document, but the discussion material in this document will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, but is primarily intended to guide discussion that will feed into <span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1224,7 +1241,7 @@ address div.right {
       <h2 id="name-questions-and-eventually-an">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-questions-and-eventually-an" class="section-name selfRef">Questions (and, Eventually, Answers)</a>
       </h2>
-<p id="section-2-1">The -00 version of this document is very much a starting point for discussion, and this document will be updated as we converge on answers.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-1">This version of this document is still very much a starting point for discussion, and additional questions are welcomed, even as we converge on answers.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <div id="useful-avp-profiles">
 <section id="section-2.1">
         <h3 id="name-useful-avp-profiles">
@@ -1255,7 +1272,7 @@ address div.right {
           <h4 id="name-is-secure-rtp-encapsulated-">
 <a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-is-secure-rtp-encapsulated-" class="section-name selfRef">Is "Secure RTP Encapsulated in UDP" Equivalent to "RTP Encapsulated in QUIC"?</a>
           </h4>
-<p id="section-2.1.2-1">RTP that is encapsulated in QUIC payloads will always be encrypted <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>. So, should we register (for example)<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-1">RTP that is encapsulated in QUIC payloads will always be encrypted <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>. So we could register (for example)<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.1.2-2.1">QUIC/RTP/AVPF, knowing that any RTP payload using the QUIC protocol is encrypted, but is not encrypted using SDES, or<a href="#section-2.1.2-2.1" class="pilcrow">¶</a>
 </li>
@@ -1264,6 +1281,15 @@ address div.right {
             <li class="normal" id="section-2.1.2-2.3">both QUIC/RTP/AVPF and QUIC/RTP/SAVPF, to minimize the changes necessary for existing RTP applications to add support for QUIC encapsulation?<a href="#section-2.1.2-2.3" class="pilcrow">¶</a>
 </li>
           </ul>
+<div id="proposed-answer">
+<section id="section-2.1.2.1">
+            <h5 id="name-proposed-answer">
+<a href="#section-2.1.2.1" class="section-number selfRef">2.1.2.1. </a><a href="#name-proposed-answer" class="section-name selfRef">Proposed Answer</a>
+            </h5>
+<p id="section-2.1.2.1-1">We note that it is possible, and perhaps likely, that RTP-over-QUIC would be used in "mixed" environments, where one of the functions of an RTP mixer/translator is to connect RTP endpoints that are RTP-over-QUIC-enabled with RTP endpoints that are not.<a href="#section-2.1.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.2.1-2">In this case, the only way to ensure encryption over every hop between two endpoints is to use one of the RTP profiles that includes security.<a href="#section-2.1.2.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="encapsulations-in-datagrams-and-streams">
@@ -1283,15 +1309,16 @@ address div.right {
         <h3 id="name-useful-support-for-existing">
 <a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-useful-support-for-existing" class="section-name selfRef">Useful Support For Existing RTP Extensions included in SDP Offer/Answer</a>
         </h3>
-<p id="section-2.2-1">At least one of the goals for QUIC/RTP encapsulation is that QUIC/RTP applications would not require more UDP ports than existing RTP applications.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.2-2">For this reason,<a href="#section-2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.2-1">At least one of the goals for QUIC/RTP encapsulation is that QUIC/RTP applications would not require more UDP ports than existing RTP applications.
+For this reason,<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.2-3.1">It seems useful to confirm that we can assume support for "Multiplexing RTP Data and Control Packets on a Single Port", as described in <span>[<a href="#RFC5761" class="xref">RFC5761</a>]</span>.<a href="#section-2.2-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-2.2-2.1">It seems useful to confirm that we can assume support for "Multiplexing RTP Data and Control Packets on a Single Port", as described in <span>[<a href="#RFC5761" class="xref">RFC5761</a>]</span>.<a href="#section-2.2-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.2-3.2">It seems useful to confirm that we can assume support for Media Multiplexing ("BUNDLE"), as described in <span>[<a href="#RFC8843" class="xref">RFC8843</a>]</span>.<a href="#section-2.2-3.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-2.2-2.2">It seems useful to confirm that we can assume support for Media Multiplexing ("BUNDLE"), as described in <span>[<a href="#RFC8843" class="xref">RFC8843</a>]</span>.<a href="#section-2.2-2.2" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-2.2-4">Are there other RTP extensions that we can assume support for?<a href="#section-2.2-4" class="pilcrow">¶</a></p>
+<p id="section-2.2-3"><strong>Editor's Note</strong> We recognize that the usage of RTP/RTCP ports in (for example) RTP/SAVPF, which runs over UDP, will be more nuanced in (for example) QUIC/RTP/SAVPF, which can use UDP ports in the same way as RTP/SAVPF, but can also use mechanisms such as Application-Layer Protocol Negotiation (ALPN) Protocol IDs to multiplex multiple applications on a single port, as further discussed in <a href="#alpn" class="xref">Section 2.4.2</a> below. This section should be read with <a href="#alpn" class="xref">Section 2.4.2</a> in mind. One possibility is that this discussion turns out to be about minimizing the need for more QUIC connections, which does translate directly to minimizing UDP ports.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.2-4">Are there other RTP extensions that we should assume support for?<a href="#section-2.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="feedback-mechanisms">
@@ -1301,9 +1328,10 @@ address div.right {
         </h3>
 <p id="section-2.3-1">RTP has relied on RTCP as its feedback mechanism for decades, as that mechanism has evolved over time, with the addition of AVPF feedback (<span>[<a href="#RFC4585" class="xref">RFC4585</a>]</span>), and subsequent extensions (for example, the codec control messages defined in <span>[<a href="#RFC5104" class="xref">RFC5104</a>]</span> and extended in <span>[<a href="#RFC7728" class="xref">RFC7728</a>]</span> and <span>[<a href="#RFC8082" class="xref">RFC8082</a>]</span>).<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.3-2">Should we assume that RTP applications using QUIC as their transport encapsulation will continue to use AVPF as the basis for feedback mechanisms, largely unchanged?<a href="#section-2.3-2" class="pilcrow">¶</a></p>
-<p id="section-2.3-3">Perhaps some applications will do so.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
-<p id="section-2.3-4">However, <span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span> proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality. Conversely, <span>[<a href="#RIST-Simple-Prof" class="xref">RIST-Simple-Prof</a>]</span> extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
-<p id="section-2.3-5">If there's not one answer to that question, the choice among feedback mechanisms will need to be included in SDP Offer/Answer.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">It seems likely that many implementations that already utilize (S)AVPF as their feedback mechanisms will continue to do so for QUIC/RTP/AVPF sessions. These implementations already work, and continuing to use the same feedback mechanism for QUC/RTP/AVPF sessions will minimize the amount of new development and testing required for these implementations to add support for QUIC/RTP/AVPF.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">We also recognize that <span>[<a href="#RIST-Simple-Prof" class="xref">RIST-Simple-Prof</a>]</span> extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request, as an indication that this feedback mechanism remains in the mainstream of RTP/RTCP protocol usage.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-5">However, <span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span> proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+<p id="section-2.3-6">If there's not one answer to the feedback mechanism question, the necessary feedback mechanism will need to be included in the SDP Offer/Answer exchange.<a href="#section-2.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="potential-extensions-to-quic-and-quic-related-specifications">
@@ -1319,11 +1347,11 @@ address div.right {
           </h4>
 <p id="section-2.4.1-1"><span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span> does not provide support for a standardized datagram multiplexing identifier, for reasons described in Section 5.1, and at greater length in the Github issue about this (at https://github.com/quicwg/datagram/issues/6).<a href="#section-2.4.1-1" class="pilcrow">¶</a></p>
 <p id="section-2.4.1-2">The high-level explanation is that there was considerable support for adding a datagram multiplexing identifier to the datagram frame type, but much less agreement about what effect that identifier would have, and whether the QUIC transport layer would be responsible for any particular processing, or whether this processing would necessarily be performed by the application. For example, some proponents of adding datagram multiplexing expected to use multiplexing identifiers as ways of distinguishing between datagrams of different priorities, and other propoents expected to used multiplexing identifiers to distinquish between datagrams that were part of multi-datagram conversations (more like streams, but using the datagram frame types).<a href="#section-2.4.1-2" class="pilcrow">¶</a></p>
-<p id="section-2.4.1-3">Given that there was no agreement on the functionality that datagram multiplexer identifiers would be used for, or what requirements this addition to the protocol would place to QUIC transport processing, the best decision seemed to be that any application that needed this capability could trivially add its own multiplexing identifiers at the beginning of the Datagram Data field (<span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span>).<a href="#section-2.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.4.1-3">Given that there was no agreement on the functionality that datagram multiplexer identifiers would be used for, or what requirements this addition to the protocol would place to QUIC transport processing, the best decision for the QUIC protocol seemed to be that any application that needed this capability could trivially add its own multiplexing identifiers at the beginning of the Datagram Data field (<span>[<a href="#I-D.ietf-quic-datagram" class="xref">I-D.ietf-quic-datagram</a>]</span>).<a href="#section-2.4.1-3" class="pilcrow">¶</a></p>
 <p id="section-2.4.1-4">In general, that's a fine plan. The question for this document is whether there is enough similarity among various applications using QUIC/RTP that specifying an RTP-specific datagram multiplier would provide better predictability and ability to multiplex datagrams from different applications without modifying those applications when they encounter each other for the first time.<a href="#section-2.4.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="rtp-destination-transport-addresses-bundles-and-quic-connection-ids">
+<div id="alpn">
 <section id="section-2.4.2">
           <h4 id="name-rtp-destination-transport-a">
 <a href="#section-2.4.2" class="section-number selfRef">2.4.2. </a><a href="#name-rtp-destination-transport-a" class="section-name selfRef">RTP Destination Transport Addresses, Bundles, and QUIC Connection-IDs</a>
@@ -1339,13 +1367,14 @@ address div.right {
           <h4 id="name-support-for-nat-traversal">
 <a href="#section-2.4.3" class="section-number selfRef">2.4.3. </a><a href="#name-support-for-nat-traversal" class="section-name selfRef">Support for NAT Traversal</a>
           </h4>
-<p id="section-2.4.3-1">From <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>, Section 8.2:<a href="#section-2.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.4.3-1">It's worth noting that the driving use cases for the first version of the IETF QUIC protocol have been for HTTP-based web access, where the capability described in Section 8.2 of <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span> was sufficient:<a href="#section-2.4.3-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-2.4.3-2.1">
               <p id="section-2.4.3-2.1.1">Path validation is not designed as a NAT traversal mechanism. Though the mechanism described here might be effective for the creation of NAT bindings that support NAT traversal, the expectation is that one endpoint is able to receive packets without first having sent a packet on that path. Effective NAT traversal needs additional synchronization mechanisms that are not provided here.<a href="#section-2.4.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-2.4.3-3">It's worth noting that the driving use cases for the first version of IETF QUIC have been for HTTP-based web access, where the capability described in <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span> was sufficient, while many existing applications using RTP also require support for NAT traversal. If we need NAT traversal for QUIC/RTP applications, we need to look at existing NAT traversal mechanisms, and determine whether they are sufficient, and, if not, whether they can be included in SDP Offer/Answer for QUIC/RTP communication without modification to the underlying QUIC path validation mechanism.<a href="#section-2.4.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.4.3-3">Some existing RTP applications share this characteristic - at least one RTP endpoint can receive a packet without having previously sent packet on that path. For these applications, current QUIC functionality will be sufficient.<a href="#section-2.4.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.4.3-4">For other RTP applications, we may need a QUIC extension that provides NAT traversal, and we may need to include information about NAT traversal in SDP Offer/Answer to enable QUIC/RTP communication.<a href="#section-2.4.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1382,14 +1411,16 @@ address div.right {
         <li class="normal" id="section-5-2.3">Joerg Ott and Mathis Engelbart, authors of <span>[<a href="#I-D.engelbart-rtp-over-quic" class="xref">I-D.engelbart-rtp-over-quic</a>]</span><a href="#section-5-2.3" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-5-3">Thanks to these folks for helping to improve this draft by commenting, proposing text, or correcting my confusion:<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-3">Thanks to these folks for helping to improve this draft by commenting, proposing text, or correcting confusion:<a href="#section-5-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5-4.1">Colin Perkins<a href="#section-5-4.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-5-4.2">Richard Bradbury<a href="#section-5-4.2" class="pilcrow">¶</a>
 </li>
+        <li class="normal" id="section-5-4.3">Stephan Wegner<a href="#section-5-4.3" class="pilcrow">¶</a>
+</li>
       </ul>
-<p id="section-5-5">(Your name also could appear here. Please comment and contribute, as described in "Contribution and Discussion Venues for this draft".).<a href="#section-5-5" class="pilcrow">¶</a></p>
+<p id="section-5-5">(Your name also could appear here. Please comment and contribute, as described in "Contribution and Discussion Venues for this draft" above)<a href="#section-5-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-6">
@@ -1411,7 +1442,7 @@ address div.right {
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-datagram">[I-D.ietf-quic-datagram]</dt>
         <dd>
-<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Kinnear, E.</span>, and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"An Unreliable Datagram Extension to QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-datagram-04</span>, <time datetime="2021-09-08" class="refDate">8 September 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-datagram-04">https://datatracker.ietf.org/doc/html/draft-ietf-quic-datagram-04</a>&gt;</span>. </dd>
+<span class="refAuthor">Pauly, T.</span>, <span class="refAuthor">Kinnear, E.</span>, and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"An Unreliable Datagram Extension to QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-datagram-06</span>, <time datetime="2021-10-05" class="refDate">5 October 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-datagram-06">https://datatracker.ietf.org/doc/html/draft-ietf-quic-datagram-06</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-quic-http">[I-D.ietf-quic-http]</dt>
         <dd>

@@ -263,10 +263,11 @@ Table of Contents
    continuing to use the same feedback mechanism for QUC/RTP/AVPF
    sessions will minimize the amount of new development and testing
    required for these implementations to add support for QUIC/RTP/AVPF.
+
    We also recognize that [RIST-Simple-Prof] extends the RTP/AVPF
    bitmasked-based retransmission request with its own range-based
-   retransmission request, so this feedback mechanism remains in the
-   mainstream of RTP/RTCP protocol usage.
+   retransmission request, as an indication that this feedback mechanism
+   remains in the mainstream of RTP/RTCP protocol usage.
 
    However, [I-D.engelbart-rtp-over-quic] proposes that QUIC/RTP
    implementations may not need to support some RTCP messages, if QUIC
@@ -365,11 +366,12 @@ Table of Contents
 
    Some existing RTP applications share this characteristic - at least
    one RTP endpoint can receive a packet without having previously sent
-   packet.  For these applications, current QUIC functionality will be
-   sufficient.  For other RTP applications, we may need a QUIC extension
-   that provides NAT traversal, and we may need to include information
-   about NAT traversal in SDP Offer/Answer to enable QUIC/RTP
-   communication.
+   packet on that path.  For these applications, current QUIC
+   functionality will be sufficient.
+
+   For other RTP applications, we may need a QUIC extension that
+   provides NAT traversal, and we may need to include information about
+   NAT traversal in SDP Offer/Answer to enable QUIC/RTP communication.
 
 3.  IANA Considerations
 

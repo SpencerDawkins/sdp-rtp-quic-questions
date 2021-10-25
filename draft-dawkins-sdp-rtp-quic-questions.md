@@ -142,7 +142,9 @@ RTP has relied on RTCP as its feedback mechanism for decades, as that mechanism 
 
 Should we assume that RTP applications using QUIC as their transport encapsulation will continue to use AVPF as the basis for feedback mechanisms, largely unchanged?
 
-It seems likely that many implementations that already utilize (S)AVPF as their feedback mechanisms will continue to do so for QUIC/RTP/AVPF sessions. These implementations already work, and continuing to use the same feedback mechanism for QUC/RTP/AVPF sessions will minimize the amount of new development and testing required for these implementations to add support for QUIC/RTP/AVPF. We also recognize that {{RIST-Simple-Prof}} extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request, so this feedback mechanism remains in the mainstream of RTP/RTCP protocol usage.
+It seems likely that many implementations that already utilize (S)AVPF as their feedback mechanisms will continue to do so for QUIC/RTP/AVPF sessions. These implementations already work, and continuing to use the same feedback mechanism for QUC/RTP/AVPF sessions will minimize the amount of new development and testing required for these implementations to add support for QUIC/RTP/AVPF.
+
+We also recognize that {{RIST-Simple-Prof}} extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request, as an indication that this feedback mechanism remains in the mainstream of RTP/RTCP protocol usage.
 
 However, {{I-D.engelbart-rtp-over-quic}} proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality.
 
@@ -178,7 +180,9 @@ It's worth noting that the driving use cases for the first version of the IETF Q
 
 > Path validation is not designed as a NAT traversal mechanism. Though the mechanism described here might be effective for the creation of NAT bindings that support NAT traversal, the expectation is that one endpoint is able to receive packets without first having sent a packet on that path. Effective NAT traversal needs additional synchronization mechanisms that are not provided here.
 
- Some existing RTP applications share this characteristic - at least one RTP endpoint can receive a packet without having previously sent packet. For these applications, current QUIC functionality will be sufficient. For other RTP applications, we may need a QUIC extension that provides NAT traversal, and we may need to include information about NAT traversal in SDP Offer/Answer to enable QUIC/RTP communication.
+Some existing RTP applications share this characteristic - at least one RTP endpoint can receive a packet without having previously sent packet on that path. For these applications, current QUIC functionality will be sufficient.
+
+For other RTP applications, we may need a QUIC extension that provides NAT traversal, and we may need to include information about NAT traversal in SDP Offer/Answer to enable QUIC/RTP communication.
 
 # IANA Considerations
 

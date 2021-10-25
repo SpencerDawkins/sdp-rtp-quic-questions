@@ -81,11 +81,11 @@ This document is intended to stimulate discussion about how proponents of "RTP o
 
 ##Scope of this document {#scope}
 
-{{I-D.dawkins-sdp-rtp-quic}} will necessarily reflect questions and answers contained in this document, but that discussion material will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, or some of its contents might might be included in one or more documents that describe RTP encapsulation in the QUIC protocol.
+{{I-D.dawkins-sdp-rtp-quic}} will almost certainly reflect answers  to the questions contained in this document, but the discussion material in this document will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, but is primarily intended to guide discussion that will feed into {{I-D.dawkins-sdp-rtp-quic}}.
 
 # Questions (and, Eventually, Answers) {#questions}
 
-The -00 version of this document is very much a starting point for discussion, and this document will be updated as we converge on answers.
+This version of this document is still very much a starting point for discussion, and additional questions are welcomed, even as we converge on answers.
 
 ## Useful AVP Profiles
 
@@ -104,11 +104,17 @@ We could register both AVP and AVPF profiles, but do we need to register both?
 
 ### Is "Secure RTP Encapsulated in UDP" Equivalent to "RTP Encapsulated in QUIC"?
 
-RTP that is encapsulated in QUIC payloads will always be encrypted {{RFC9000}}. So, should we register (for example)
+RTP that is encapsulated in QUIC payloads will always be encrypted {{RFC9000}}. So we could register (for example)
 
 - QUIC/RTP/AVPF, knowing that any RTP payload using the QUIC protocol is encrypted, but is not encrypted using SDES, or
 - QUIC/RTP/SAVPF, because QUIC encryption provides at least an equivalent level of protection to SDES, or
 - both QUIC/RTP/AVPF and QUIC/RTP/SAVPF, to minimize the changes necessary for existing RTP applications to add support for QUIC encapsulation?
+
+#### Proposed Answer
+
+We note that it is possible, and perhaps likely, that RTP-over-QUIC would be used in "mixed" environments, where one of the functions of an RTP mixer/translator is to connect RTP endpoints that are RTP-over-QUIC-enabled with RTP endpoints that are not.
+
+In this case, the only way to ensure encryption over every hop between two endpoints is to use one of the RTP profiles that includes security.
 
 ### Encapsulations in Datagrams and Streams
 
@@ -121,13 +127,14 @@ Should we do that? If so, starting out that way would be better than starting ou
 ## Useful Support For Existing RTP Extensions included in SDP Offer/Answer
 
 At least one of the goals for QUIC/RTP encapsulation is that QUIC/RTP applications would not require more UDP ports than existing RTP applications.
-
 For this reason,
 
 - It seems useful to confirm that we can assume support for "Multiplexing RTP Data and Control Packets on a Single Port", as described in {{RFC5761}}.
 - It seems useful to confirm that we can assume support for Media Multiplexing ("BUNDLE"), as described in {{RFC8843}}.
 
-Are there other RTP extensions that we can assume support for?
+**Editor's Note** We recognize that the usage of RTP/RTCP ports in (for example) RTP/SAVPF, which runs over UDP, will be more nuanced in (for example) QUIC/RTP/SAVPF, which can use UDP ports in the same way as RTP/SAVPF, but can also use mechanisms such as Application-Layer Protocol Negotiation (ALPN) Protocol IDs to multiplex multiple applications on a single port, as further discussed in {{alpn}} below. This section should be read with {{alpn}} in mind. One possibility is that this discussion turns out to be about minimizing the need for more QUIC connections, which does translate directly to minimizing UDP ports.
+
+Are there other RTP extensions that we should assume support for?
 
 ## Feedback Mechanisms
 
@@ -135,11 +142,13 @@ RTP has relied on RTCP as its feedback mechanism for decades, as that mechanism 
 
 Should we assume that RTP applications using QUIC as their transport encapsulation will continue to use AVPF as the basis for feedback mechanisms, largely unchanged?
 
-Perhaps some applications will do so.
+It seems likely that many implementations that already utilize (S)AVPF as their feedback mechanisms will continue to do so for QUIC/RTP/AVPF sessions. These implementations already work, and continuing to use the same feedback mechanism for QUC/RTP/AVPF sessions will minimize the amount of new development and testing required for these implementations to add support for QUIC/RTP/AVPF.
 
-However, {{I-D.engelbart-rtp-over-quic}} proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality. Conversely, {{RIST-Simple-Prof}} extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request.
+We also recognize that {{RIST-Simple-Prof}} extends the RTP/AVPF bitmasked-based retransmission request with its own range-based retransmission request, as an indication that this feedback mechanism remains in the mainstream of RTP/RTCP protocol usage.
 
-If there's not one answer to that question, the choice among feedback mechanisms will need to be included in SDP Offer/Answer.
+However, {{I-D.engelbart-rtp-over-quic}} proposes that QUIC/RTP implementations may not need to support some RTCP messages, if QUIC itself provides equivalent functionality.
+
+If there's not one answer to the feedback mechanism question, the necessary feedback mechanism will need to be included in the SDP Offer/Answer exchange.
 
 ## Potential Extensions To QUIC and QUIC-related Specifications
 
@@ -151,11 +160,11 @@ Because the topics in this section are speculative, it's not clear whether they 
 
 The high-level explanation is that there was considerable support for adding a datagram multiplexing identifier to the datagram frame type, but much less agreement about what effect that identifier would have, and whether the QUIC transport layer would be responsible for any particular processing, or whether this processing would necessarily be performed by the application. For example, some proponents of adding datagram multiplexing expected to use multiplexing identifiers as ways of distinguishing between datagrams of different priorities, and other propoents expected to used multiplexing identifiers to distinquish between datagrams that were part of multi-datagram conversations (more like streams, but using the datagram frame types).
 
-Given that there was no agreement on the functionality that datagram multiplexer identifiers would be used for, or what requirements this addition to the protocol would place to QUIC transport processing, the best decision seemed to be that any application that needed this capability could trivially add its own multiplexing identifiers at the beginning of the Datagram Data field ({{I-D.ietf-quic-datagram}}).
+Given that there was no agreement on the functionality that datagram multiplexer identifiers would be used for, or what requirements this addition to the protocol would place to QUIC transport processing, the best decision for the QUIC protocol seemed to be that any application that needed this capability could trivially add its own multiplexing identifiers at the beginning of the Datagram Data field ({{I-D.ietf-quic-datagram}}).
 
 In general, that's a fine plan. The question for this document is whether there is enough similarity among various applications using QUIC/RTP that specifying an RTP-specific datagram multiplier would provide better predictability and ability to multiplex datagrams from different applications without modifying those applications when they encounter each other for the first time.
 
-### RTP Destination Transport Addresses, Bundles, and QUIC Connection-IDs
+### RTP Destination Transport Addresses, Bundles, and QUIC Connection-IDs {#alpn}
 
 RTP has more than one way to identify endpoints, whether {{RFC3550}}-style destination three-tuples, or {{RFC4961}}-style Symmetric RTP and RTCP, or {{RFC8843}}-style BUNDLE transport, but all are based on IP addresses and port addresses.
 
@@ -167,11 +176,13 @@ If QUIC/RTP applications will be making use of something like Application Layer 
 
 ### Support for NAT Traversal
 
-From {{RFC9000}}, Section 8.2:
+It's worth noting that the driving use cases for the first version of the IETF QUIC protocol have been for HTTP-based web access, where the capability described in Section 8.2 of {{RFC9000}} was sufficient:
 
 > Path validation is not designed as a NAT traversal mechanism. Though the mechanism described here might be effective for the creation of NAT bindings that support NAT traversal, the expectation is that one endpoint is able to receive packets without first having sent a packet on that path. Effective NAT traversal needs additional synchronization mechanisms that are not provided here.
 
-It's worth noting that the driving use cases for the first version of IETF QUIC have been for HTTP-based web access, where the capability described in {{RFC9000}} was sufficient, while many existing applications using RTP also require support for NAT traversal. If we need NAT traversal for QUIC/RTP applications, we need to look at existing NAT traversal mechanisms, and determine whether they are sufficient, and, if not, whether they can be included in SDP Offer/Answer for QUIC/RTP communication without modification to the underlying QUIC path validation mechanism.
+Some existing RTP applications share this characteristic - at least one RTP endpoint can receive a packet without having previously sent packet on that path. For these applications, current QUIC functionality will be sufficient.
+
+For other RTP applications, we may need a QUIC extension that provides NAT traversal, and we may need to include information about NAT traversal in SDP Offer/Answer to enable QUIC/RTP communication.
 
 # IANA Considerations
 
@@ -189,9 +200,10 @@ Thanks to these folks, for authoring various "QUIC over RTP" drafts for specific
 * Sam Hurst, author of {{I-D.hurst-quic-rtp-tunnelling}}
 * Jörg Ott and Mathis Engelbart, authors of {{I-D.engelbart-rtp-over-quic}}
 
-Thanks to these folks for helping to improve this draft by commenting, proposing text, or correcting my confusion:
+Thanks to these folks for helping to improve this draft by commenting, proposing text, or correcting confusion:
 
 * Colin Perkins
 * Richard Bradbury
+* Stephan Wegner
 
-(Your name also could appear here. Please comment and contribute, as described in "Contribution and Discussion Venues for this draft".).
+(Your name also could appear here. Please comment and contribute, as described in "Contribution and Discussion Venues for this draft" above)

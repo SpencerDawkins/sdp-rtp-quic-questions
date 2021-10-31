@@ -10,11 +10,11 @@
        This document is a companion document to &quot;SDP Offer/Answer for RTP using QUIC as Transport&quot;. That document focuses on the description and registration of SDP &quot;proto&quot; attribute parameters with IANA, to allow applications that rely on SDP Offer/Answer to negotiate the QUIC protocol as an encapsulation for RTP. 
        In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about the way RTP would be encapsulated in QUIC, and different proposals for those encapsulations had made different assumptions. Given that none of these proposals have been adopted by an IETF working group yet, it's not appropriate to try to base a general-purpose set of &quot;QUIC/RTP&quot; IANA registrations on any one of them, so this document includes the questions that have come up, and (as discussions progress) suggested answers for those questions. 
     " name="description">
-<meta content="xml2rfc 3.10.0" name="generator">
+<meta content="xml2rfc 3.11.1" name="generator">
 <meta content="Internet-Draft QUIC RTP SDP" name="keyword">
 <meta content="draft-dawkins-sdp-rtp-quic-questions-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.10.0
+  xml2rfc 3.11.1
     Python 3.9.5
     appdirs 1.4.4
     ConfigArgParse 1.3
@@ -198,7 +198,8 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-html {
+:root {
+  color-scheme: light dark;
   --background-color: #fff;
   --text-color: #222;
   --title-color: #191919;
@@ -208,6 +209,7 @@ html {
   --pilcrow-weak: #ddd;
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -301,6 +303,10 @@ div {
 }
 svg {
   display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
 }
 .alignCenter.art-text {
   background-color: var(--highlight-color);
@@ -396,7 +402,7 @@ a.xref {
 /* Figures */
 tt, code, pre {
   background-color: var(--highlight-color);
-  font: 14px/22px 'Oxygen Mono', monospace;
+  font: 14px/22px var(--font-mono);
 }
 tt, code {
   /* changing the font for inline elements leads to different ascender
@@ -1002,7 +1008,7 @@ address div.right {
 
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
-html {
+:root {
   --background-color: #121212;
   --text-color: #f0f0f0;
   --title-color: #fff;
@@ -1039,7 +1045,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Dawkins</td>
-<td class="center">Expires 28 April 2022</td>
+<td class="center">Expires 4 May 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1052,12 +1058,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-dawkins-sdp-rtp-quic-questions-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-10-25" class="published">25 October 2021</time>
+<time datetime="2021-10-31" class="published">31 October 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-04-28">28 April 2022</time></dd>
+<dd class="expires"><time datetime="2022-05-04">4 May 2022</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1104,7 +1110,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 May 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1122,9 +1128,9 @@ svg [stroke="fill"], svg [fill^="#fff"] {
             publication of this document. Please review these documents
             carefully, as they describe your rights and restrictions with
             respect to this document. Code Components extracted from this
-            document must include Simplified BSD License text as described in
+            document must include Revised BSD License text as described in
             Section 4.e of the Trust Legal Provisions and are provided without
-            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="toc">
@@ -1140,7 +1146,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
                 <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-notes-for-readers" class="xref">Notes for Readers</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
-                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-scope-of-this-document" class="xref">Scope of this document</a></p>
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-relationship-with-other-doc" class="xref">Relationship with other documents</a></p>
 </li>
             </ul>
 </li>
@@ -1226,12 +1232,21 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <p id="section-1.1-2">This document is intended to stimulate discussion about how proponents of "RTP over QUIC" expect that to work, recognizing that not everyone has the same goals in mind, but it understanding what the choices are will likely be helpful in making those choices, especially when the results of a choice provide direction that will allow implementers to agree on strategies and reuse as much code as possible.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="scope">
+<div id="relationship-with-other-documents">
 <section id="section-1.2">
-        <h3 id="name-scope-of-this-document">
-<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-scope-of-this-document" class="section-name selfRef">Scope of this document</a>
+        <h3 id="name-relationship-with-other-doc">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-relationship-with-other-doc" class="section-name selfRef">Relationship with other documents</a>
         </h3>
-<p id="section-1.2-1"><span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span> will almost certainly reflect answers  to the questions contained in this document, but the discussion material in this document will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, but is primarily intended to guide discussion that will feed into <span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.2-1">Work on this draft and on <span>[<a href="#I-D.gruessing-moq-requirements" class="xref">I-D.gruessing-moq-requirements</a>]</span> began in isolation from each other, and the authors of both drafts are still working out the scope of each draft, so there is some overlap between the drafts. At this time, it's worth saying that<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-1.2-2.1">
+            <span>[<a href="#I-D.gruessing-moq-requirements" class="xref">I-D.gruessing-moq-requirements</a>]</span> is intended to capture requirements for the encapsulation of Media Transport Protocols in the QUIC protocol<a href="#section-1.2-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-1.2-2.2">This document is intended to capture questions that will affect the specification of Session Description Protocol description for these encapsulated Media Transport Protocols<a href="#section-1.2-2.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-1.2-3">Both specifications are open for issues and pull requests, and since there is a common author, assume that any contribution you make to either draft in GitHub will end up in the right place.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.2-4"><span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span> will almost certainly reflect answers  to the questions contained in this document, but the discussion material in this document will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, but is primarily intended to guide discussion that will feed into <span>[<a href="#I-D.dawkins-sdp-rtp-quic" class="xref">I-D.dawkins-sdp-rtp-quic</a>]</span>.<a href="#section-1.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1434,7 +1449,7 @@ For this reason,<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="I-D.engelbart-rtp-over-quic">[I-D.engelbart-rtp-over-quic]</dt>
         <dd>
-<span class="refAuthor">Ott, J.</span> and <span class="refAuthor">M. Engelbart</span>, <span class="refTitle">"RTP over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-engelbart-rtp-over-quic-00</span>, <time datetime="2021-07-12" class="refDate">12 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-engelbart-rtp-over-quic-00">https://datatracker.ietf.org/doc/html/draft-engelbart-rtp-over-quic-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Ott, J.</span> and <span class="refAuthor">M. Engelbart</span>, <span class="refTitle">"RTP over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-engelbart-rtp-over-quic-01</span>, <time datetime="2021-10-25" class="refDate">25 October 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-engelbart-rtp-over-quic-01">https://datatracker.ietf.org/doc/html/draft-engelbart-rtp-over-quic-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.hurst-quic-rtp-tunnelling">[I-D.hurst-quic-rtp-tunnelling]</dt>
         <dd>
@@ -1532,8 +1547,12 @@ For this reason,<a href="#section-2.2-1" class="pilcrow">¶</a></p>
         </h3>
 <dl class="references">
 <dt id="I-D.dawkins-sdp-rtp-quic">[I-D.dawkins-sdp-rtp-quic]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Dawkins, S.</span>, <span class="refTitle">"SDP Offer/Answer for RTP using QUIC as Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-dawkins-sdp-rtp-quic-00</span>, <time datetime="2021-09-08" class="refDate">8 September 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-dawkins-sdp-rtp-quic-00">https://datatracker.ietf.org/doc/html/draft-dawkins-sdp-rtp-quic-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.gruessing-moq-requirements">[I-D.gruessing-moq-requirements]</dt>
+      <dd>
+<span class="refAuthor">Gruessing, J.</span> and <span class="refAuthor">S. Dawkins</span>, <span class="refTitle">"QUIC Encapsulation for Media over RTP - Requirements and Use Cases"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-gruessing-moq-requirements-00</span>, <time datetime="2021-10-25" class="refDate">25 October 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-gruessing-moq-requirements-00">https://datatracker.ietf.org/doc/html/draft-gruessing-moq-requirements-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

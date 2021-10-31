@@ -4,8 +4,8 @@
 
 AVTCORE/MMUSIC Working Groups                                 S. Dawkins
 Internet-Draft                                       Tencent America LLC
-Intended status: Informational                         30 September 2021
-Expires: 3 April 2022
+Intended status: Informational                           31 October 2021
+Expires: 4 May 2022
 
 
   SDP Offer/Answer for RTP using QUIC as Transport - Design Questions
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 April 2022.
+   This Internet-Draft will expire on 4 May 2022.
 
 Copyright Notice
 
@@ -68,15 +68,15 @@ Copyright Notice
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
-   extracted from this document must include Simplified BSD License text
-   as described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Simplified BSD License.
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
    1.  Introduction
      1.1.  Notes for Readers
-     1.2.  Scope of this document
+     1.2.  Relationship with other documents
    2.  Questions (and, Eventually, Answers)
      2.1.  Useful AVP Profiles
        2.1.1.  Can We Assume the Use of "Extended Audiovisual
@@ -135,21 +135,37 @@ Table of Contents
    allow implementers to agree on strategies and reuse as much code as
    possible.
 
-1.2.  Scope of this document
+1.2.  Relationship with other documents
 
-   [I-D.dawkins-sdp-rtp-quic] will necessarily reflect questions and
-   answers contained in this document, but that discussion material will
-   not be appropriate for inclusion in a draft that focuses on SDP
-   description and IANA registration.  This document might be worth
-   publishing on its own, or some of its contents might might be
-   included in one or more documents that describe RTP encapsulation in
-   the QUIC protocol.
+   Work on this draft and on [I-D.gruessing-moq-requirements] began in
+   isolation from each other, and the authors of both drafts are still
+   working out the scope of each draft, so there is some overlap between
+   the drafts.  At this time, it's worth saying that
+
+   *  [I-D.gruessing-moq-requirements] is intended to capture
+      requirements for the encapsulation of Media Transport Protocols in
+      the QUIC protocol
+
+   *  This document is intended to capture questiona that will affect
+      the specification of Session Description Protocol description for
+      these encapsulated Media Transport Protocols
+
+   Both specifications are open for issues and pull requests, and since
+   there is a common author, assume that any contribution you make to
+   either draft in GitHub will end up in the right place.
+
+   [I-D.dawkins-sdp-rtp-quic] will almost certainly reflect answers to
+   the questions contained in this document, but the discussion material
+   in this document will not be appropriate for inclusion in a draft
+   that focuses on SDP description and IANA registration.  This document
+   might be worth publishing on its own, but is primarily intended to
+   guide discussion that will feed into [I-D.dawkins-sdp-rtp-quic].
 
 2.  Questions (and, Eventually, Answers)
 
-   The -00 version of this document is very much a starting point for
-   discussion, and this document will be updated as we converge on
-   answers.
+   This version of this document is still very much a starting point for
+   discussion, and additional questions are welcomed, even as we
+   converge on answers.
 
 2.1.  Useful AVP Profiles
 
@@ -182,7 +198,7 @@ Table of Contents
         Encapsulated in QUIC"?
 
    RTP that is encapsulated in QUIC payloads will always be encrypted
-   [RFC9000].  So, should we register (for example)
+   [RFC9000].  So we could register (for example)
 
    *  QUIC/RTP/AVPF, knowing that any RTP payload using the QUIC
       protocol is encrypted, but is not encrypted using SDES, or
@@ -193,6 +209,17 @@ Table of Contents
    *  both QUIC/RTP/AVPF and QUIC/RTP/SAVPF, to minimize the changes
       necessary for existing RTP applications to add support for QUIC
       encapsulation?
+
+2.1.2.1.  Proposed Answer
+
+   We note that it is possible, and perhaps likely, that RTP-over-QUIC
+   would be used in "mixed" environments, where one of the functions of
+   an RTP mixer/translator is to connect RTP endpoints that are RTP-
+   over-QUIC-enabled with RTP endpoints that are not.
+
+   In this case, the only way to ensure encryption over every hop
+   between two endpoints is to use one of the RTP profiles that includes
+   security.
 
 2.1.3.  Encapsulations in Datagrams and Streams
 
@@ -213,9 +240,7 @@ Table of Contents
 
    At least one of the goals for QUIC/RTP encapsulation is that QUIC/RTP
    applications would not require more UDP ports than existing RTP
-   applications.
-
-   For this reason,
+   applications.  For this reason,
 
    *  It seems useful to confirm that we can assume support for
       "Multiplexing RTP Data and Control Packets on a Single Port", as
@@ -224,7 +249,18 @@ Table of Contents
    *  It seems useful to confirm that we can assume support for Media
       Multiplexing ("BUNDLE"), as described in [RFC8843].
 
-   Are there other RTP extensions that we can assume support for?
+   *Editor's Note* We recognize that the usage of RTP/RTCP ports in (for
+   example) RTP/SAVPF, which runs over UDP, will be more nuanced in (for
+   example) QUIC/RTP/SAVPF, which can use UDP ports in the same way as
+   RTP/SAVPF, but can also use mechanisms such as Application-Layer
+   Protocol Negotiation (ALPN) Protocol IDs to multiplex multiple
+   applications on a single port, as further discussed in Section 2.4.2
+   below.  This section should be read with Section 2.4.2 in mind.  One
+   possibility is that this discussion turns out to be about minimizing
+   the need for more QUIC connections, which does translate directly to
+   minimizing UDP ports.
+
+   Are there other RTP extensions that we should assume support for?
 
 2.3.  Feedback Mechanisms
 
@@ -238,17 +274,25 @@ Table of Contents
    encapsulation will continue to use AVPF as the basis for feedback
    mechanisms, largely unchanged?
 
-   Perhaps some applications will do so.
+   It seems likely that many implementations that already utilize
+   (S)AVPF as their feedback mechanisms will continue to do so for
+   QUIC/RTP/AVPF sessions.  These implementations already work, and
+   continuing to use the same feedback mechanism for QUC/RTP/AVPF
+   sessions will minimize the amount of new development and testing
+   required for these implementations to add support for QUIC/RTP/AVPF.
+
+   We also recognize that [RIST-Simple-Prof] extends the RTP/AVPF
+   bitmasked-based retransmission request with its own range-based
+   retransmission request, as an indication that this feedback mechanism
+   remains in the mainstream of RTP/RTCP protocol usage.
 
    However, [I-D.engelbart-rtp-over-quic] proposes that QUIC/RTP
    implementations may not need to support some RTCP messages, if QUIC
-   itself provides equivalent functionality.  Conversely,
-   [RIST-Simple-Prof] extends the RTP/AVPF bitmasked-based
-   retransmission request with its own range-based retransmission
-   request.
+   itself provides equivalent functionality.
 
-   If there's not one answer to that question, the choice among feedback
-   mechanisms will need to be included in SDP Offer/Answer.
+   If there's not one answer to the feedback mechanism question, the
+   necessary feedback mechanism will need to be included in the SDP
+   Offer/Answer exchange.
 
 2.4.  Potential Extensions To QUIC and QUIC-related Specifications
 
@@ -280,9 +324,10 @@ Table of Contents
    Given that there was no agreement on the functionality that datagram
    multiplexer identifiers would be used for, or what requirements this
    addition to the protocol would place to QUIC transport processing,
-   the best decision seemed to be that any application that needed this
-   capability could trivially add its own multiplexing identifiers at
-   the beginning of the Datagram Data field ([I-D.ietf-quic-datagram]).
+   the best decision for the QUIC protocol seemed to be that any
+   application that needed this capability could trivially add its own
+   multiplexing identifiers at the beginning of the Datagram Data field
+   ([I-D.ietf-quic-datagram]).
 
    In general, that's a fine plan.  The question for this document is
    whether there is enough similarity among various applications using
@@ -324,7 +369,9 @@ Table of Contents
 
 2.4.3.  Support for NAT Traversal
 
-   From [RFC9000], Section 8.2:
+   It's worth noting that the driving use cases for the first version of
+   the IETF QUIC protocol have been for HTTP-based web access, where the
+   capability described in Section 8.2 of [RFC9000] was sufficient:
 
       Path validation is not designed as a NAT traversal mechanism.
       Though the mechanism described here might be effective for the
@@ -334,15 +381,14 @@ Table of Contents
       traversal needs additional synchronization mechanisms that are not
       provided here.
 
-   It's worth noting that the driving use cases for the first version of
-   IETF QUIC have been for HTTP-based web access, where the capability
-   described in [RFC9000] was sufficient, while many existing
-   applications using RTP also require support for NAT traversal.  If we
-   need NAT traversal for QUIC/RTP applications, we need to look at
-   existing NAT traversal mechanisms, and determine whether they are
-   sufficient, and, if not, whether they can be included in SDP Offer/
-   Answer for QUIC/RTP communication without modification to the
-   underlying QUIC path validation mechanism.
+   Some existing RTP applications share this characteristic - at least
+   one RTP endpoint can receive a packet without having previously sent
+   packet on that path.  For these applications, current QUIC
+   functionality will be sufficient.
+
+   For other RTP applications, we may need a QUIC extension that
+   provides NAT traversal, and we may need to include information about
+   NAT traversal in SDP Offer/Answer to enable QUIC/RTP communication.
 
 3.  IANA Considerations
 
@@ -372,14 +418,17 @@ Table of Contents
       [I-D.engelbart-rtp-over-quic]
 
    Thanks to these folks for helping to improve this draft by
-   commenting, proposing text, or correcting my confusion:
+   commenting, proposing text, or correcting confusion:
 
    *  Colin Perkins
 
    *  Richard Bradbury
 
+   *  Stephan Wegner
+
    (Your name also could appear here.  Please comment and contribute, as
-   described in "Contribution and Discussion Venues for this draft".).
+   described in "Contribution and Discussion Venues for this draft"
+   above)
 
 6.  References
 
@@ -388,8 +437,9 @@ Table of Contents
    [I-D.engelbart-rtp-over-quic]
               Ott, J. and M. Engelbart, "RTP over QUIC", Work in
               Progress, Internet-Draft, draft-engelbart-rtp-over-quic-
-              00, 12 July 2021, <https://datatracker.ietf.org/doc/html/
-              draft-engelbart-rtp-over-quic-00>.
+              01, 25 October 2021,
+              <https://datatracker.ietf.org/doc/html/draft-engelbart-
+              rtp-over-quic-01>.
 
    [I-D.hurst-quic-rtp-tunnelling]
               Hurst, S., "QRT: QUIC RTP Tunnelling", Work in Progress,
@@ -400,9 +450,9 @@ Table of Contents
    [I-D.ietf-quic-datagram]
               Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", Work in Progress, Internet-
-              Draft, draft-ietf-quic-datagram-04, 8 September 2021,
+              Draft, draft-ietf-quic-datagram-06, 5 October 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              datagram-04>.
+              datagram-06>.
 
    [I-D.ietf-quic-http]
               Bishop, M., "Hypertext Transfer Protocol Version 3
@@ -521,6 +571,14 @@ Table of Contents
               dawkins-sdp-rtp-quic-00, 8 September 2021,
               <https://datatracker.ietf.org/doc/html/draft-dawkins-sdp-
               rtp-quic-00>.
+
+   [I-D.gruessing-moq-requirements]
+              Gruessing, J. and S. Dawkins, "QUIC Encapsulation for
+              Media over RTP - Requirements and Use Cases", Work in
+              Progress, Internet-Draft, draft-gruessing-moq-
+              requirements-00, 25 October 2021,
+              <https://datatracker.ietf.org/doc/html/draft-gruessing-
+              moq-requirements-00>.
 
 Author's Address
 

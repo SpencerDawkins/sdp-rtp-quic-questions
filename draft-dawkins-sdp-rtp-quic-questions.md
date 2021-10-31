@@ -58,6 +58,7 @@ normative:
 informative:
 
   I-D.dawkins-sdp-rtp-quic:
+  I-D.gruessing-moq-requirements:
 
 --- abstract
 
@@ -79,7 +80,15 @@ In writing that document, it became obvious that decisions about an appropriate 
 
 This document is intended to stimulate discussion about how proponents of "RTP over QUIC" expect that to work, recognizing that not everyone has the same goals in mind, but it understanding what the choices are will likely be helpful in making those choices, especially when the results of a choice provide direction that will allow implementers to agree on strategies and reuse as much code as possible.
 
-##Scope of this document {#scope}
+## Relationship with other documents
+
+Work on this draft and on {{I-D.gruessing-moq-requirements}} began in isolation from each other, and the authors of both drafts are still working out the scope of each draft, so there is some overlap between the drafts. At this time, it's worth saying that
+
+* {{I-D.gruessing-moq-requirements}} is intended to capture requirements for the encapsulation of Media Transport Protocols in the QUIC protocol
+
+* This document is intended to capture questions that will affect the specification of Session Description Protocol description for these encapsulated Media Transport Protocols
+
+Both specifications are open for issues and pull requests, and since there is a common author, assume that any contribution you make to either draft in GitHub will end up in the right place.
 
 {{I-D.dawkins-sdp-rtp-quic}} will almost certainly reflect answers  to the questions contained in this document, but the discussion material in this document will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, but is primarily intended to guide discussion that will feed into {{I-D.dawkins-sdp-rtp-quic}}.
 

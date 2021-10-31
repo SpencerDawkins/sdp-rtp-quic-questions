@@ -146,7 +146,7 @@ Table of Contents
       requirements for the encapsulation of Media Transport Protocols in
       the QUIC protocol
 
-   *  This document is intended to capture questiona that will affect
+   *  This document is intended to capture questions that will affect
       the specification of Session Description Protocol description for
       these encapsulated Media Transport Protocols
 

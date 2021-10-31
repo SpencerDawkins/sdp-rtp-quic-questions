@@ -86,7 +86,7 @@ Work on this draft and on {{I-D.gruessing-moq-requirements}} began in isolation 
 
 * {{I-D.gruessing-moq-requirements}} is intended to capture requirements for the encapsulation of Media Transport Protocols in the QUIC protocol
 
-* This document is intended to capture questiona that will affect the specification of Session Description Protocol description for these encapsulated Media Transport Protocols
+* This document is intended to capture questions that will affect the specification of Session Description Protocol description for these encapsulated Media Transport Protocols
 
 Both specifications are open for issues and pull requests, and since there is a common author, assume that any contribution you make to either draft in GitHub will end up in the right place.
 

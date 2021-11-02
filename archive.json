@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-10-31T01:03:55.282649+00:00",
+  "timestamp": "2021-11-02T01:03:49.680568+00:00",
   "repo": "SpencerDawkins/sdp-rtp-quic-questions",
   "labels": [
     {
@@ -75,6 +75,34 @@
       "mergedBy": "SpencerDawkins",
       "mergeCommit": {
         "oid": "6c229f94c87026db0ee4d8f620da05ae0f222e85"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOGF_Z5M4t5ZBP",
+      "title": "Add reference to I-D.gruessing-moq-requirements.",
+      "url": "https://github.com/SpencerDawkins/sdp-rtp-quic-questions/pull/2",
+      "state": "MERGED",
+      "author": "SpencerDawkins",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "@fiestajetsam, I'm adding a similar reference to your/our draft in my draft, I don't know why that didn't occur to me last week - sorry!",
+      "createdAt": "2021-10-31T21:27:58Z",
+      "updatedAt": "2021-10-31T21:36:17Z",
+      "baseRepository": "SpencerDawkins/sdp-rtp-quic-questions",
+      "baseRefName": "main",
+      "baseRefOid": "6c229f94c87026db0ee4d8f620da05ae0f222e85",
+      "headRepository": "SpencerDawkins/sdp-rtp-quic-questions",
+      "headRefName": "xref",
+      "headRefOid": "934c21771e319cec93908309a58b52aca820a022",
+      "closedAt": "2021-10-31T21:36:17Z",
+      "mergedAt": "2021-10-31T21:36:17Z",
+      "mergedBy": "SpencerDawkins",
+      "mergeCommit": {
+        "oid": "0b72c7b330196c4f5ccd97cf7ef986dcd05afd32"
       },
       "comments": [],
       "reviews": []

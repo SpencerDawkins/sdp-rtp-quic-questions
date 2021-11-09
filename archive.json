@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-11-07T01:03:48.699845+00:00",
+  "timestamp": "2021-11-09T01:02:06.414511+00:00",
   "repo": "SpencerDawkins/sdp-rtp-quic-questions",
   "labels": [
     {
@@ -91,7 +91,7 @@
       "labels": [],
       "body": "@fiestajetsam, I'm adding a similar reference to your/our draft in my draft, I don't know why that didn't occur to me last week - sorry!",
       "createdAt": "2021-10-31T21:27:58Z",
-      "updatedAt": "2021-10-31T21:36:17Z",
+      "updatedAt": "2021-11-08T13:47:37Z",
       "baseRepository": "SpencerDawkins/sdp-rtp-quic-questions",
       "baseRefName": "main",
       "baseRefOid": "6c229f94c87026db0ee4d8f620da05ae0f222e85",

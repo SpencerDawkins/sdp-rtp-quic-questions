@@ -1,13 +1,13 @@
 ---
 title: SDP Offer/Answer for RTP using QUIC as Transport - Design Questions
 abbrev: SDP O/A for RTP over QUIC
-docname: draft-dawkins-sdp-rtp-quic-questions-latest
+docname: draft-dawkins-avtcore-sdp-rtp-quic-questions-latest
 date:
 category: info
 
 ipr: trust200902
 area: applications
-workgroup: AVTCORE/MMUSIC Working Groups
+workgroup: AVTCORE Working Group
 keyword: Internet-Draft QUIC RTP SDP
 
 stand_alone: yes
@@ -57,7 +57,7 @@ normative:
 
 informative:
 
-  I-D.dawkins-sdp-rtp-quic:
+  I-D.dawkins-avtcore-sdp-rtp-quic:
   I-D.gruessing-moq-requirements:
 
 --- abstract
@@ -70,7 +70,7 @@ In writing that document, it became obvious that decisions about an appropriate 
 
 # Introduction {#intro}
 
-This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport" ({{I-D.dawkins-sdp-rtp-quic}}). That document focuses on the description and registration of SDP ({{RFC8866}}) "proto" attribute parameters with IANA ({{SDP-parameters}}), to allow applications that rely on SDP Offer/Answer ({{RFC3264}}) to negotiate the QUIC protocol({{RFC9000}}) as an encapsulation for RTP ({{RFC3550}}).
+This document is a companion document to "SDP Offer/Answer for RTP using QUIC as Transport" ({{I-D.dawkins-avtcore-sdp-rtp-quic}}). That document focuses on the description and registration of SDP ({{RFC8866}}) "proto" attribute parameters with IANA ({{SDP-parameters}}), to allow applications that rely on SDP Offer/Answer ({{RFC3264}}) to negotiate the QUIC protocol({{RFC9000}}) as an encapsulation for RTP ({{RFC3550}}).
 
 In writing that document, it became obvious that decisions about an appropriate SDP description would depend on decisions about the way RTP would be encapsulated in QUIC, and different proposals for those encapsulations ({{I-D.engelbart-rtp-over-quic}}, {{I-D.hurst-quic-rtp-tunnelling}}, and {{I-D.rtpfolks-quic-rtp-over-quic}}) had made different assumptions. Given that none of these proposals have been adopted by an IETF working group yet, it's not appropriate to try to base a general-purpose set of "QUIC/RTP" IANA registrations on any one of them, so this document includes the questions that have come up, and (as discussions progress) suggested answers for those questions.
 
@@ -82,15 +82,7 @@ This document is intended to stimulate discussion about how proponents of "RTP o
 
 ## Relationship with other documents
 
-Work on this draft and on {{I-D.gruessing-moq-requirements}} began in isolation from each other, and the authors of both drafts are still working out the scope of each draft, so there is some overlap between the drafts. At this time, it's worth saying that
-
-* {{I-D.gruessing-moq-requirements}} is intended to capture requirements for the encapsulation of Media Transport Protocols in the QUIC protocol
-
-* This document is intended to capture questions that will affect the specification of Session Description Protocol description for these encapsulated Media Transport Protocols
-
-Both specifications are open for issues and pull requests, and since there is a common author, assume that any contribution you make to either draft in GitHub will end up in the right place.
-
-{{I-D.dawkins-sdp-rtp-quic}} will almost certainly reflect answers  to the questions contained in this document, but the discussion material in this document will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, but is primarily intended to guide discussion that will feed into {{I-D.dawkins-sdp-rtp-quic}}.
+{{I-D.dawkins-avtcore-sdp-rtp-quic}} will almost certainly reflect answers  to the questions contained in this document, but the discussion material in this document will not be appropriate for inclusion in a draft that focuses on SDP description and IANA registration. This document might be worth publishing on its own, but is primarily intended to guide discussion that will feed into {{I-D.dawkins-avtcore-sdp-rtp-quic}}.
 
 # Questions (and, Eventually, Answers) {#questions}
 
@@ -161,7 +153,7 @@ If there's not one answer to the feedback mechanism question, the necessary feed
 
 ## Potential Extensions To QUIC and QUIC-related Specifications
 
-Because the topics in this section are speculative, it's not clear whether they would have any impact on SDP description and IANA registration in {{I-D.dawkins-sdp-rtp-quic}}. They are included in this document for completeness.
+Because the topics in this section are speculative, it's not clear whether they would have any impact on SDP description and IANA registration in {{I-D.dawkins-avtcore-sdp-rtp-quic}}. They are included in this document for completeness.
 
 ### QUIC Datagram Multiplexing
 

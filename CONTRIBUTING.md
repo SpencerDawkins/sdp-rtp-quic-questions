@@ -19,8 +19,8 @@ subject to a Simplified BSD License) in Contributions.
 ## Other Resources
 
 Discussion of this document takes place on the
-["Media Over QUIC" non-working group mailing list (MOQ)](https://mailarchive.ietf.org/arch/browse/moq/)
-([subscribe](https://www.ietf.org/mailman/listinfo/Moq/)).  In addition to
+[AVTCORE working group mailing list (avt)](https://mailarchive.ietf.org/arch/browse/avt/)
+([subscribe](https://www.ietf.org/mailman/listinfo/avt/)).  In addition to
 contributions in GitHub, you are encouraged to participate in discussions there.
 
 **Note**: Some working groups adopt a policy whereby substantive discussion of

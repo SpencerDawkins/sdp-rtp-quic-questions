@@ -2,10 +2,10 @@
 
 This is the working area for the individual Internet-Draft, "SDP Offer/Answer for RTP using QUIC as Transport - Design Questions".
 
-* [Editor's Copy](https://SpencerDawkins.github.io/sdp-rtp-quic-questions/#go.draft-dawkins-sdp-rtp-quic-questions.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-dawkins-sdp-rtp-quic-questions)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-dawkins-sdp-rtp-quic-questions)
-* [Compare Editor's Copy to Individual Draft](https://SpencerDawkins.github.io/sdp-rtp-quic-questions/#go.draft-dawkins-sdp-rtp-quic-questions.diff)
+* [Editor's Copy](https://SpencerDawkins.github.io/sdp-rtp-quic-questions/#go.draft-dawkins-avtcore-sdp-rtp-quic-questions.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-dawkins-avtcore-sdp-rtp-quic-questions)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-dawkins-avtcore-sdp-rtp-quic-questions)
+* [Compare Editor's Copy to Individual Draft](https://SpencerDawkins.github.io/sdp-rtp-quic-questions/#go.draft-dawkins-avtcore-sdp-rtp-quic-questions.diff)
 
 
 ## Contributing
